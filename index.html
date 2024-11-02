@@ -69,6 +69,156 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-week1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/11/02/week1/" class="article-date">
+  <time class="dt-published" datetime="2024-11-02T08:20:50.000Z" itemprop="datePublished">2024-11-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/11/02/week1/">week1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="编码解码——（浅学）"><a href="#编码解码——（浅学）" class="headerlink" title="编码解码——（浅学）"></a>编码解码——（浅学）</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>![思维导图](C:\Users\LQ\Pictures\Screenshots\屏幕截图 2024-10-27 152037.png)</p>
+<p><strong>在CTF密码学中，编码解码是很重要的部分。编码是将信息从一种形式转换为另一种特定形式，而解码则是编码的逆过程。</strong></p>
+<p>密码学的发展是从古典密码到现代密码，以下是我的了解：</p>
+<ul>
+<li>古典密码学——密码体系的安全性取决于<strong>算法和密钥</strong>的保密；</li>
+<li>现代密码学——密码体系的安全性取决于<strong>密钥</strong>的保密；</li>
+<li>非对称密码算法（公钥密码算法）——加密和解密的密钥不同</li>
+<li>对称密码算法——加密和解密的密钥相同</li>
+</ul>
+<p>以下开启我在drops培训里所学到的编码与解码</p>
+<h2 id="古典密码"><a href="#古典密码" class="headerlink" title="古典密码"></a>古典密码</h2><h3 id="凯撒密码"><a href="#凯撒密码" class="headerlink" title="凯撒密码"></a>凯撒密码</h3><p>它是一种替换加密的技术，明文中的所有字母都在字母表上向后（或向前）按照一个固定数目进行偏移后被替换成</p>
+<p>密文。</p>
+<p>例如，当偏移量为左移3时</p>
+<p>明文：ABCDE</p>
+<p>密文：DEFGH</p>
+<p>此时密钥为3</p>
+<h3 id="培根密码"><a href="#培根密码" class="headerlink" title="培根密码"></a>培根密码</h3><p>培根密码的本质是将字母用一串二进制数替换，但是表示的过程中，没有采取0和1的形式，而使用a和b来代替</p>
+<p>加密的过程首先将要加密的内容根据加密表里的内容进行替换， 如a用AAAAA替换，b用AAAAB替换。 替换完之</p>
+<p>后，我们可以把A和B当作两个不同的特征（如大写&#x2F;小写，正体&#x2F;斜体）带入到一个无关的句子中， 这就得到了我</p>
+<p>们加密后的结果。</p>
+<p>例如 任选一句话，将a当作小写，b当作大写</p>
+<p>明文：Happy Birthday</p>
+<p>密钥：aaabb ababb abbaa</p>
+<p>密文：hapPY bIrTHdAY</p>
+<h3 id="维吉尼亚密码"><a href="#维吉尼亚密码" class="headerlink" title="维吉尼亚密码"></a>维吉尼亚密码</h3><p>是由一些偏移量不同的恺撒密码组成。</p>
+<p>![](C:\Users\LQ\Pictures\Screenshots\屏幕截图 2024-10-27 160210.png)</p>
+<p>加密原理</p>
+<p>它使用一个密钥词，根据这个密钥词来循环决定每个明文字母应该按照哪种凯撒密码（单表替换密码）进行替换。例如，有一个密钥词是“KEY”，明文是“HELLO”。首先，密钥词“KEY”会重复，使其长度与明文长度相同，对于“HELLO”就变成“KEYKE”。<br>字母H按照以K为偏移量的凯撒密码进行加密（在英文字母表中，A是0，B是1，以此类推，K对应的数字是10，所以H加密后对应的字母是R，因为H往后数10个字母是R），E按照以E为偏移量的凯撒密码加密，第二个L按照以Y为偏移量的凯撒密码加密，以此类推。</p>
+<p>解密过程</p>
+<p>解密时，需要知道密钥词。计算出每个密文字母相对于对应密钥字母的偏移量，然后还原出明文。例如，如果密文是“RDLUL”，密钥是“KEY”，对于字母R，因为K对应的偏移量是10，所以往前推10个字母就可以得到H，从而解出。</p>
+<h3 id="栅栏密码"><a href="#栅栏密码" class="headerlink" title="栅栏密码"></a>栅栏密码</h3><p>栅栏密码把要加密的明文分成N个一组，然后把每组的第一个字连起来，形成一段无规律的话，</p>
+<p>例如：</p>
+<ul>
+<li>THERE IS A CIPHER</li>
+<li>均分成两组，每组两个</li>
+<li>TH  ER EI SA CI PH ER</li>
+<li>先取出第一个字母，再取出第二个</li>
+<li>TEESCPEHRIAIHR</li>
+</ul>
+<h2 id="base家族"><a href="#base家族" class="headerlink" title="base家族"></a>base家族</h2><h3 id="base16"><a href="#base16" class="headerlink" title="base16"></a>base16</h3><p> 1.使用16个ASCII可打印字符（数字0-9和字母A-F），对任意字节数据进行编码。</p>
+<p>2.先获取输入字符串每个字节的二进制值（不足8比特在高位补0），然后将其串联进来，再按照4比特一组进行切</p>
+<p>分，将每组二进制数分别转换成十进制。</p>
+<p>流程：给定的字符串根据Ascll标转化成二进制–&gt;重新划分–&gt;再转化为16进制</p>
+<p>注：可以看到8比特数据按照4比特切分刚好是两组，所以Base16不可能用到填充符号“&#x3D;”。 换句话说：</p>
+<p>Base16使用两个ASCII字符去编码原数据中的一个字节数据。</p>
+<h3 id="base32"><a href="#base32" class="headerlink" title="base32"></a>base32</h3><p>1.Base32编码是使用32个可打印字符（字母A-Z和数字2-7）对任意字节数据进行编码。</p>
+<p>2.Base32主要用于编码二进制数据，但是Base32也能够编码诸如ASCII之类的二进制文本。</p>
+<p>3.Base32将任意字符串按照字节进行切分，并将每个字节对应的二进制值（不足8比特高位补0）串联起来，按照5</p>
+<p>比特一组进行切分，并将每组二进制值转换成十进制来对应32个可打印字符中的一个。</p>
+<p>由于数据的二进制传输是按照8比特一组进行（即一个字节），因此Base32按5比特切分的二进制数据必须是40比</p>
+<p>特的倍数（5和8的最小公倍数）。</p>
+<p>流程：给定的字符串根据Ascll标转化成二进制–&gt;重新划分–&gt;再根据码表转换</p>
+<p>重新划分：划分时最后不够5的后面先补0，总体不够40比特的倍数的补等号（一个等号就是5bit）</p>
+<h3 id="base64"><a href="#base64" class="headerlink" title="base64"></a>base64</h3><p>Base64是一种基于64个可打印字符来表示二进制数据的表示方法。由于，所以每6个比特为一个单元，对应某个可</p>
+<p>打印字符。3个字节有24个比特，对应于4个Base64单元，即3个字节可由4个可打印字符来表示。</p>
+<p>由于数据的二进制传输是按照8比特一组进行（即一个字节），因此Base64按6比特切分的二进制数据必须是24比</p>
+<p>特的倍数（8和6的最小公倍数）。</p>
+<p>流程：给定的字符串根据Ascll标转化成二进制–&gt;重新划分–&gt;再根据码表转换</p>
+<p>重新划分：划分时最后不够6的后面先补0，总体不够24比特的倍数的补等号（一个等号就是6bit）</p>
+<h3 id="辨析"><a href="#辨析" class="headerlink" title="辨析"></a>辨析</h3><p>是否有&#x3D;，有为base32和base64，是否有1，有为base64，无为base32</p>
+<p>都无&#x3D;，不一定就是base16，base16只有字母A~F（特点）也可以有0</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/11/02/week1/" data-id="cm2zwdyxf0001xcvmahlcbjnn" data-title="week1" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/11/02/hello-world/" class="article-date">
+  <time class="dt-published" datetime="2024-11-02T08:13:29.050Z" itemprop="datePublished">2024-11-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/11/02/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/11/02/hello-world/" data-id="cm2zwdyx90000xcvm6wax92tx" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-week2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2024/11/02/week2/" class="article-date">
@@ -159,7 +309,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/02/week2/" data-id="cm2zvx00z00002kvmgyhtehk9" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/11/02/week2/" data-id="cm2zwdyxg0002xcvm85xqat33" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -200,6 +350,14 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2024/11/02/week1/">week1</a>
+          </li>
+        
+          <li>
+            <a href="/2024/11/02/hello-world/">Hello World</a>
+          </li>
         
           <li>
             <a href="/2024/11/02/week2/">(no title)</a>
