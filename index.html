@@ -69,6 +69,76 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-upx脱壳" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/12/06/upx%E8%84%B1%E5%A3%B3/" class="article-date">
+  <time class="dt-published" datetime="2024-12-06T05:05:17.000Z" itemprop="datePublished">2024-12-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/12/06/upx%E8%84%B1%E5%A3%B3/">upx脱壳</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="re——脱壳"><a href="#re——脱壳" class="headerlink" title="re——脱壳"></a>re——脱壳</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>“壳”可以分为两类：压缩壳和加密壳。<strong>压缩壳的目的是压缩原程序的体积</strong>，很多恶意代码都采用压缩壳，以便于传输。<strong>加密壳也称保护壳，是指通过对原程序加密来防止文件被破解</strong>。一般而言，加密壳会增加文件的体积。常见的压缩壳包括<strong>UPX</strong>、ASPack、Nspack（北斗压缩壳）等，常见的加密壳有VMProtect、ASProtect等。所有的压缩壳都能被脱壳，但是加密壳脱壳的难度较大，因此比赛时出现压缩壳问题的概率较大。对于我们来说，壳就是阻碍我们进行逆向分析，得到flag的。</p>
+<p>今天我们来一起学一下<strong>upx脱壳</strong>吧！</p>
+<h2 id="upx脱壳的简单操作"><a href="#upx脱壳的简单操作" class="headerlink" title="upx脱壳的简单操作"></a>upx脱壳的简单操作</h2><p>UPX（the Ultimate Packer for eXecutables，官网地址为<a target="_blank" rel="noopener" href="https://upx.github.io/%EF%BC%89">https://upx.github.io/）</a></p>
+<p>下载解压好之后，要记住文件的位置，比如我的就放在”D:\APP\upx”中</p>
+<p>先打开命令提示符，输入  <strong>d:</strong>  ,再输入  <strong>cd D:\APP\upx\upx-4.2.4-win64</strong>  (cd 后面的是你自己的安装路径)</p>
+<p>最后输入 <strong>upx -d</strong> (需要脱壳的文件地址)   如图所示</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412052310212.png"></p>
+<p>upx -d 就是脱壳指令</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412052335453.png"></p>
+<p>用IDA打开后，一眼出flag，NSSCTF{UPX_c4n_3as1ly_5h3ll_pr0gr4m!}，对应NSS里[SWPUCTF 2023 秋季新生赛]UPX</p>
+<h2 id="魔改壳"><a href="#魔改壳" class="headerlink" title="魔改壳"></a>魔改壳</h2><p>upx脱壳比较简单，但是只要做一些简单的操作就可以让upx工具失效，那就称为魔改壳。</p>
+<p>例题：[LitCTF 2024]hello_upx</p>
+<p>解压缩后拖到查壳工具中查壳，发现是upx壳，进行简单的脱壳操作，结果发现脱不了壳，那就是魔改壳。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412061027857.png"></p>
+<p>于是把这个文件放到010里面查看</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412061035708.png"></p>
+<p>发现四个错误，upx不应该是小写，而是大写，所以应该将四处小写的upx，改成大写的，就将75 70 78 都改成55 50 58，再保存一下就好了。</p>
+<p>再进行upx脱壳，这次就能脱了</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412061039095.png"></p>
+<p>用IDA打开文件，进行反汇编</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412061042198.png"></p>
+<p>分析一下代码的逻辑，只有让v4+i&#x3D;&#x3D;v6[i]，才能得出flag。</p>
+<p>本题中涉及大小端序的知识，字节序分为两种：大端序和小端序。大端序（大端模式）是指数据的高字节保存在内存的低地址中，而数据的低字节保存在内存的高地址中；小端序（小端模式）是指数据的高字节保存在内存的高地址中，而数据的低字节保存在内存的低地址中。下面有两段内存数据：</p>
+<p>0000430: e684 6c4e 0100 1800 53ef 0100 0100 0000</p>
+<p>0000440: b484 6c4e 004e ed00 0000 0000 0100 0000</p>
+<p>在大端模式下，第一行前32比特应该这样读：e6 84 6c 4e（假设int占4</p>
+<p>字节）。</p>
+<p>在小端模式下，第二行前32比特应该这样读：4e 6c 84 b4（假设int占4</p>
+<p>字节）。</p>
+<p>牢记：在<strong>IDA</strong>中，大于等于两字节的数据的存储方式和我们的阅读习惯相反。</p>
+<p>写出exp</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412061050953.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/12/06/upx%E8%84%B1%E5%A3%B3/" data-id="cm4cac65c00009wvmdmf36sbb" data-title="upx脱壳" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-week1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2024/11/02/week1/" class="article-date">
@@ -339,7 +409,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a></li></ul>
     </div>
   </div>
 
@@ -350,6 +420,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2024/12/06/upx%E8%84%B1%E5%A3%B3/">upx脱壳</a>
+          </li>
         
           <li>
             <a href="/2024/11/02/week1/">week1</a>
