@@ -1,560 +1,203 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Born to Shine - 我们都是一颗星</title><meta name="author" content="第二支羽毛"><meta name="copyright" content="第二支羽毛"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="观我旧往，同我仰春">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Born to Shine">
 <meta property="og:url" content="http://example.com/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
+<meta property="og:site_name" content="Born to Shine">
+<meta property="og:description" content="观我旧往，同我仰春">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222128421.jpg">
+<meta property="article:author" content="第二支羽毛">
+<meta property="article:tag" content="传说凤凰涅槃时会掉落两支羽毛，一支留给过去，另一支是重生的勇气">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222128421.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
 
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
   
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
   
-  
-<meta name="generator" content="Hexo 7.3.0"></head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":50,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Born to Shine',
+  isHighlightShrink: true,
+  isToc: false,
+  pageType: 'home'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222128421.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222059493.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Born to Shine</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">Born to Shine</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/seeker-fang" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="post_cover left"><a href="/2024/12/19/Python%E9%80%86%E5%90%91-PYC/" title="无标题"><img class="post-bg" src="/-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116882.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116881.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222102230.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无标题"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/12/19/Python%E9%80%86%E5%90%91-PYC/" title="无标题">无标题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-12-19T11:13:04.782Z" title="发表于 2024-12-19 19:13:04">2024-12-19</time></span></div><div class="content">Python逆向——PYC了解什么是pycpyc 文件是 Python 将 .py 源代码编译后生成的字节码文件,主要有以下几个特点和作用: 加速执行：直接执行 .pyc 字节码，可以跳过反复编译的步骤，直接运行已编译好的字节码，从而加快执行速度； 隐藏源代码：包含编译后的字节码，而不会包含原始的源代码，可对源代码进行加密或者保护源代码不被用户访问； 跨平台运行：不同平台编译的 .pyc 字节码文件可在其它平台上运行，可以将 Python 程序打包成 .pyc 文件在不同系统上分发和运行； 冗余检查：Python解释器会根据 .py 文件的修改时间来检查 .pyc 文件是否过期；如果 .py 文件没有改动，.pyc 可以直接重用，避免重复编译； 支持单文件运行：可以只发布 .pyc文件让用户直接运行，而不需要随附源代码，一定程度上保护代码； 节省内存：只加载 .pyc 文件可以减少内存开销，因为不需要加载源码。 1以上转载自原文链接：https://blog.csdn.net/m0_70885101/article/details/134393740  .pyc 文件是...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/12/06/upx%E8%84%B1%E5%A3%B3/" title="upx脱壳"><img class="post-bg" src="/-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116882.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116881.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222102230.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="upx脱壳"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/12/06/upx%E8%84%B1%E5%A3%B3/" title="upx脱壳">upx脱壳</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-12-06T05:05:17.000Z" title="发表于 2024-12-06 13:05:17">2024-12-06</time></span></div><div class="content">re——脱壳前言“壳”可以分为两类：压缩壳和加密壳。压缩壳的目的是压缩原程序的体积，很多恶意代码都采用压缩壳，以便于传输。加密壳也称保护壳，是指通过对原程序加密来防止文件被破解。一般而言，加密壳会增加文件的体积。常见的压缩壳包括UPX、ASPack、Nspack（北斗压缩壳）等，常见的加密壳有VMProtect、ASProtect等。所有的压缩壳都能被脱壳，但是加密壳脱壳的难度较大，因此比赛时出现压缩壳问题的概率较大。对于我们来说，壳就是阻碍我们进行逆向分析，得到flag的。 今天我们来一起学一下upx脱壳吧！ upx脱壳的简单操作UPX（the Ultimate Packer for eXecutables，官网地址为https://upx.github.io/） 下载解压好之后，要记住文件的位置，比如我的就放在”D:\APP\upx”中 先打开命令提示符，输入  d:  ,再输入  cd D:\APP\upx\upx-4.2.4-win64  (cd 后面的是你自己的安装路径) 最后输入 upx -d (需要脱壳的文件地址)   如图所示  upx -d...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/11/02/week1/" title="week1"><img class="post-bg" src="/-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116882.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116881.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222102230.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="week1"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/11/02/week1/" title="week1">week1</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-11-02T08:20:50.000Z" title="发表于 2024-11-02 16:20:50">2024-11-02</time></span></div><div class="content">编码解码——（浅学）前言![思维导图](C:\Users\LQ\Pictures\Screenshots\屏幕截图 2024-10-27 152037.png) 在CTF密码学中，编码解码是很重要的部分。编码是将信息从一种形式转换为另一种特定形式，而解码则是编码的逆过程。 密码学的发展是从古典密码到现代密码，以下是我的了解：  古典密码学——密码体系的安全性取决于算法和密钥的保密； 现代密码学——密码体系的安全性取决于密钥的保密； 非对称密码算法（公钥密码算法）——加密和解密的密钥不同 对称密码算法——加密和解密的密钥相同  以下开启我在drops培训里所学到的编码与解码 古典密码凯撒密码它是一种替换加密的技术，明文中的所有字母都在字母表上向后（或向前）按照一个固定数目进行偏移后被替换成 密文。 例如，当偏移量为左移3时 明文：ABCDE 密文：DEFGH 此时密钥为3 培根密码培根密码的本质是将字母用一串二进制数替换，但是表示的过程中，没有采取0和1的形式，而使用a和b来代替 加密的过程首先将要加密的内容根据加密表里的内容进行替换， 如a用AAAAA替换，b用AAAAB替换。...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/11/02/hello-world/" title="Hello World"><img class="post-bg" src="/-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116882.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116881.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222102230.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/11/02/hello-world/" title="Hello World">Hello World</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-11-02T08:13:29.050Z" title="发表于 2024-11-02 16:13:29">2024-11-02</time></span></div><div class="content">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;  More info: Writing Run server1$ hexo server  More info: Server Generate static files1$ hexo generate  More info: Generating Deploy to remote sites1$ hexo deploy  More info: Deployment </div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/11/02/week2/" title="无标题"><img class="post-bg" src="/-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116882.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116881.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222102230.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无标题"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/11/02/week2/" title="无标题">无标题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-11-02T05:25:47.275Z" title="发表于 2024-11-02 13:25:47">2024-11-02</time></span></div><div class="content"> title: week2date: 2024-11-02 13:25:47tags： Misc的基本解题思路大致分类   编码解码    隐写（图片，音频，视频，文本）    压缩包处理（zip，rar）    流量分析（协议，文件，usb，wifi）  ...</div></div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222128421.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">第二支羽毛</div><div class="author-info-description">观我旧往，同我仰春</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/seeker-fang"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/seeker-fang" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">总要记些什么证明我来过</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/12/19/Python%E9%80%86%E5%90%91-PYC/" title="无标题"><img src="/-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116882.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116881.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222102230.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无标题"/></a><div class="content"><a class="title" href="/2024/12/19/Python%E9%80%86%E5%90%91-PYC/" title="无标题">无标题</a><time datetime="2024-12-19T11:13:04.782Z" title="发表于 2024-12-19 19:13:04">2024-12-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/06/upx%E8%84%B1%E5%A3%B3/" title="upx脱壳"><img src="/-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116882.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116881.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222102230.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="upx脱壳"/></a><div class="content"><a class="title" href="/2024/12/06/upx%E8%84%B1%E5%A3%B3/" title="upx脱壳">upx脱壳</a><time datetime="2024-12-06T05:05:17.000Z" title="发表于 2024-12-06 13:05:17">2024-12-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/02/week1/" title="week1"><img src="/-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116882.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116881.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222102230.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="week1"/></a><div class="content"><a class="title" href="/2024/11/02/week1/" title="week1">week1</a><time datetime="2024-11-02T08:20:50.000Z" title="发表于 2024-11-02 16:20:50">2024-11-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/02/hello-world/" title="Hello World"><img src="/-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116882.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116881.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222102230.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2024/11/02/hello-world/" title="Hello World">Hello World</a><time datetime="2024-11-02T08:13:29.050Z" title="发表于 2024-11-02 16:13:29">2024-11-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/02/week2/" title="无标题"><img src="/-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116882.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222116881.png%20-https:/cdn.jsdelivr.net/gh/seeker-fang/Images/202502222102230.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无标题"/></a><div class="content"><a class="title" href="/2024/11/02/week2/" title="无标题">无标题</a><time datetime="2024-11-02T05:25:47.275Z" title="发表于 2024-11-02 13:25:47">2024-11-02</time></div></div></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
       
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main">
   
-    <article id="post-Python逆向-PYC" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/12/19/Python%E9%80%86%E5%90%91-PYC/" class="article-date">
-  <time class="dt-published" datetime="2024-12-19T11:13:04.782Z" itemprop="datePublished">2024-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
+    <ul class="card-archive-list">
       
-        <h1 id="Python逆向——PYC"><a href="#Python逆向——PYC" class="headerlink" title="Python逆向——PYC"></a>Python逆向——PYC</h1><h3 id="了解什么是pyc"><a href="#了解什么是pyc" class="headerlink" title="了解什么是pyc"></a>了解什么是pyc</h3><p>pyc 文件是 Python 将 .py 源代码编译后生成的字节码文件,主要有以下几个特点和作用:</p>
-<p>加速执行：直接执行 .pyc 字节码，可以跳过反复编译的步骤，直接运行已编译好的字节码，从而加快执行速度；</p>
-<p>隐藏源代码：包含编译后的字节码，而不会包含原始的源代码，可对源代码进行加密或者保护源代码不被用户访问；</p>
-<p>跨平台运行：不同平台编译的 .pyc 字节码文件可在其它平台上运行，可以将 Python 程序打包成 .pyc 文件在不同系统上分发和运行；</p>
-<p>冗余检查：Python解释器会根据 .py 文件的修改时间来检查 .pyc 文件是否过期；如果 .py 文件没有改动，.pyc 可以直接重用，避免重复编译；</p>
-<p>支持单文件运行：可以只发布 .pyc文件让用户直接运行，而不需要随附源代码，一定程度上保护代码；</p>
-<p>节省内存：只加载 .pyc 文件可以减少内存开销，因为不需要加载源码。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">以上转载自原文链接：https://blog.csdn.net/m0_70885101/article/details/134393740</span><br></pre></td></tr></table></figure>
-
-<p><code>.pyc</code> 文件是 Python 编译后的字节码文件，<strong>不是直接可读的</strong>文本文件，所以<strong>无法直接用文本&#x2F;代码编辑器打开或查看其具体内容</strong>。看起来有点束手无策，但是本着卤水点豆腐——一物降一物的法则，总有方法的。</p>
-<h3 id="解题方法"><a href="#解题方法" class="headerlink" title="解题方法"></a>解题方法</h3><p>第一种，如果是直接的pyc文件，可以找python反编译在线工具（<a target="_blank" rel="noopener" href="https://www.lddgo.net/string/pyc-compile-decompile%EF%BC%89%EF%BC%8C%E6%AF%94%E8%BE%83%E7%AE%80%E5%8D%95%E7%9A%84%E6%98%AF%E5%8F%AF%E4%BB%A5%E8%BF%99%E6%A0%B7%E7%9A%84%EF%BC%8C%E4%BD%86%E6%AF%95%E7%AB%9F%E4%B8%8D%E6%98%AF%E9%95%BF%E4%B9%85%E4%B9%8B%E8%AE%A1%E3%80%82">https://www.lddgo.net/string/pyc-compile-decompile），比较简单的是可以这样的，但毕竟不是长久之计。</a></p>
-<p>第二种，先下载pyinstxtractor.py工具，可以从网上搜索并自行下载，安装uncompyle库，使用pip命令安装。在cmd中输入命令。</p>
-<p><strong>命令</strong>：pip install uncompyle6</p>
-<p>将所得的pyc文件与pyinstxtractor.py文件放在一起，打开cmd，输入 <strong>uncompyle6 文件名.pyc &gt; 文件名.py</strong>   再回车一下，就可以得到py文件。得到py文件后，我们用VScode打开，就可以看到庐山真面目了。</p>
-<p>比如NSSCTF上的[HUBUCTF 2022 新生赛]ezPython，我们下载后是一个pyc文件</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412191655256.png"></p>
-<p>得到py文件并打开</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412191655101.png"></p>
-<p>分析一下，第一行读取了一个名为password.txt的文本文件的内容，并将这个内容存储在变量password中</p>
-<p>tmp &#x3D; bytes_to_long(password.encode(“utf-8”)) #将密码字符串编码为UTF-8格式的字节串，然后bytes_to_long函数将这个字节串转换为一个长整型</p>
-<p>ans &#x3D; base64.b64encode(base58.b58encode(str(tmp))).decode()#先使用str(tmp)将上一步得到的长整型数字转换为字符串形式，再base58，再base64编码</p>
-<p>如果你的crypto库没有问题的话，以下的脚本可以运行，有问题的话，可以找在线网站去解base64，base58，再单写一个长整型转字节型的就OK了。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412191724257.png"></p>
-<p>NSSCTF{fd78ee3399dd6a3c1d0b637fdca0c075}</p>
-<h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>1.pyc文件转py文件</p>
-<p>2.exe文件转pyc文件再转py文件</p>
-<p>先放到查壳软件里查，可以看到语言是Python，打包工具是Pylnstaller，就是考察exe转pyc，转py</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412191741212.png"></p>
-<p>将这个exe文件放在pyinstxtractor.py工具一个目录下，然后打开终端，输入命令 </p>
-<p>python pyinstxtractor.py 文件名.exe   再回车一下，</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412191756390.png"></p>
-<p>会看到一个新的与exe文件同名的文件夹，点进去查看会看到struct.pyc文件，胆大心细一下，找到你觉得可疑的文件，这个文件夹里明显是1.pyc文件。struct.pyc文件是标准正确的的文件头，1.pyc和struct.pyc需要放到010里面查看，1.pyc是否有文件头，文件头是否与标准的文件头相同。改成一致的后保存。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412191816326.png"></p>
-<p>改好后进行pyc文件转py文件，然后点进去查看</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412191850497.png"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412191852997.png"></p>
-<p>进行分析，可以得知a就是flag，flag的长度是42，flag中的每个元素的Unicode值与33相乘再与179取余要等于c[i]。</p>
-<p>进行爆破写出exp</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412191906255.png"></p>
-<p>flag：NSSCTF{2889e7a3-0d6b-4cbb-b6e9-04c0f26c9dca}</p>
-
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/12/">
+            <span class="card-archive-list-date">
+              十二月 2024
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
       
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/12/19/Python%E9%80%86%E5%90%91-PYC/" data-id="cm7fw5n7w0005vcvmdfqkfgce" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/11/">
+            <span class="card-archive-list-date">
+              十一月 2024
+            </span>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
       
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-upx脱壳" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/12/06/upx%E8%84%B1%E5%A3%B3/" class="article-date">
-  <time class="dt-published" datetime="2024-12-06T05:05:17.000Z" itemprop="datePublished">2024-12-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/12/06/upx%E8%84%B1%E5%A3%B3/">upx脱壳</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="re——脱壳"><a href="#re——脱壳" class="headerlink" title="re——脱壳"></a>re——脱壳</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>“壳”可以分为两类：压缩壳和加密壳。<strong>压缩壳的目的是压缩原程序的体积</strong>，很多恶意代码都采用压缩壳，以便于传输。<strong>加密壳也称保护壳，是指通过对原程序加密来防止文件被破解</strong>。一般而言，加密壳会增加文件的体积。常见的压缩壳包括<strong>UPX</strong>、ASPack、Nspack（北斗压缩壳）等，常见的加密壳有VMProtect、ASProtect等。所有的压缩壳都能被脱壳，但是加密壳脱壳的难度较大，因此比赛时出现压缩壳问题的概率较大。对于我们来说，壳就是阻碍我们进行逆向分析，得到flag的。</p>
-<p>今天我们来一起学一下<strong>upx脱壳</strong>吧！</p>
-<h2 id="upx脱壳的简单操作"><a href="#upx脱壳的简单操作" class="headerlink" title="upx脱壳的简单操作"></a>upx脱壳的简单操作</h2><p>UPX（the Ultimate Packer for eXecutables，官网地址为<a target="_blank" rel="noopener" href="https://upx.github.io/%EF%BC%89">https://upx.github.io/）</a></p>
-<p>下载解压好之后，要记住文件的位置，比如我的就放在”D:\APP\upx”中</p>
-<p>先打开命令提示符，输入  <strong>d:</strong>  ,再输入  <strong>cd D:\APP\upx\upx-4.2.4-win64</strong>  (cd 后面的是你自己的安装路径)</p>
-<p>最后输入 <strong>upx -d</strong> (需要脱壳的文件地址)   如图所示</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412052310212.png"></p>
-<p>upx -d 就是脱壳指令</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412052335453.png"></p>
-<p>用IDA打开后，一眼出flag，NSSCTF{UPX_c4n_3as1ly_5h3ll_pr0gr4m!}，对应NSS里[SWPUCTF 2023 秋季新生赛]UPX</p>
-<h2 id="魔改壳"><a href="#魔改壳" class="headerlink" title="魔改壳"></a>魔改壳</h2><p>upx脱壳比较简单，但是只要做一些简单的操作就可以让upx工具失效，那就称为魔改壳。</p>
-<p>例题：[LitCTF 2024]hello_upx</p>
-<p>解压缩后拖到查壳工具中查壳，发现是upx壳，进行简单的脱壳操作，结果发现脱不了壳，那就是魔改壳。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412061027857.png"></p>
-<p>于是把这个文件放到010里面查看</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412061035708.png"></p>
-<p>发现四个错误，upx不应该是小写，而是大写，所以应该将四处小写的upx，改成大写的，就将75 70 78 都改成55 50 58，再保存一下就好了。</p>
-<p>再进行upx脱壳，这次就能脱了</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412061039095.png"></p>
-<p>用IDA打开文件，进行反汇编</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412061042198.png"></p>
-<p>分析一下代码的逻辑，只有让v4+i&#x3D;&#x3D;v6[i]，才能得出flag。</p>
-<p>本题中涉及大小端序的知识，字节序分为两种：大端序和小端序。大端序（大端模式）是指数据的高字节保存在内存的低地址中，而数据的低字节保存在内存的高地址中；小端序（小端模式）是指数据的高字节保存在内存的高地址中，而数据的低字节保存在内存的低地址中。下面有两段内存数据：</p>
-<p>0000430: e684 6c4e 0100 1800 53ef 0100 0100 0000</p>
-<p>0000440: b484 6c4e 004e ed00 0000 0000 0100 0000</p>
-<p>在大端模式下，第一行前32比特应该这样读：e6 84 6c 4e（假设int占4</p>
-<p>字节）。</p>
-<p>在小端模式下，第二行前32比特应该这样读：4e 6c 84 b4（假设int占4</p>
-<p>字节）。</p>
-<p>牢记：在<strong>IDA</strong>中，大于等于两字节的数据的存储方式和我们的阅读习惯相反。</p>
-<p>写出exp</p>
-<p><img src="https://cdn.jsdelivr.net/gh/fjf111/Images//202412061050953.png"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/12/06/upx%E8%84%B1%E5%A3%B3/" data-id="cm7fw5n7r0001vcvmaonlc15v" data-title="upx脱壳" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-week1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/11/02/week1/" class="article-date">
-  <time class="dt-published" datetime="2024-11-02T08:20:50.000Z" itemprop="datePublished">2024-11-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/11/02/week1/">week1</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="编码解码——（浅学）"><a href="#编码解码——（浅学）" class="headerlink" title="编码解码——（浅学）"></a>编码解码——（浅学）</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>![思维导图](C:\Users\LQ\Pictures\Screenshots\屏幕截图 2024-10-27 152037.png)</p>
-<p><strong>在CTF密码学中，编码解码是很重要的部分。编码是将信息从一种形式转换为另一种特定形式，而解码则是编码的逆过程。</strong></p>
-<p>密码学的发展是从古典密码到现代密码，以下是我的了解：</p>
-<ul>
-<li>古典密码学——密码体系的安全性取决于<strong>算法和密钥</strong>的保密；</li>
-<li>现代密码学——密码体系的安全性取决于<strong>密钥</strong>的保密；</li>
-<li>非对称密码算法（公钥密码算法）——加密和解密的密钥不同</li>
-<li>对称密码算法——加密和解密的密钥相同</li>
-</ul>
-<p>以下开启我在drops培训里所学到的编码与解码</p>
-<h2 id="古典密码"><a href="#古典密码" class="headerlink" title="古典密码"></a>古典密码</h2><h3 id="凯撒密码"><a href="#凯撒密码" class="headerlink" title="凯撒密码"></a>凯撒密码</h3><p>它是一种替换加密的技术，明文中的所有字母都在字母表上向后（或向前）按照一个固定数目进行偏移后被替换成</p>
-<p>密文。</p>
-<p>例如，当偏移量为左移3时</p>
-<p>明文：ABCDE</p>
-<p>密文：DEFGH</p>
-<p>此时密钥为3</p>
-<h3 id="培根密码"><a href="#培根密码" class="headerlink" title="培根密码"></a>培根密码</h3><p>培根密码的本质是将字母用一串二进制数替换，但是表示的过程中，没有采取0和1的形式，而使用a和b来代替</p>
-<p>加密的过程首先将要加密的内容根据加密表里的内容进行替换， 如a用AAAAA替换，b用AAAAB替换。 替换完之</p>
-<p>后，我们可以把A和B当作两个不同的特征（如大写&#x2F;小写，正体&#x2F;斜体）带入到一个无关的句子中， 这就得到了我</p>
-<p>们加密后的结果。</p>
-<p>例如 任选一句话，将a当作小写，b当作大写</p>
-<p>明文：Happy Birthday</p>
-<p>密钥：aaabb ababb abbaa</p>
-<p>密文：hapPY bIrTHdAY</p>
-<h3 id="维吉尼亚密码"><a href="#维吉尼亚密码" class="headerlink" title="维吉尼亚密码"></a>维吉尼亚密码</h3><p>是由一些偏移量不同的恺撒密码组成。</p>
-<p>![](C:\Users\LQ\Pictures\Screenshots\屏幕截图 2024-10-27 160210.png)</p>
-<p>加密原理</p>
-<p>它使用一个密钥词，根据这个密钥词来循环决定每个明文字母应该按照哪种凯撒密码（单表替换密码）进行替换。例如，有一个密钥词是“KEY”，明文是“HELLO”。首先，密钥词“KEY”会重复，使其长度与明文长度相同，对于“HELLO”就变成“KEYKE”。<br>字母H按照以K为偏移量的凯撒密码进行加密（在英文字母表中，A是0，B是1，以此类推，K对应的数字是10，所以H加密后对应的字母是R，因为H往后数10个字母是R），E按照以E为偏移量的凯撒密码加密，第二个L按照以Y为偏移量的凯撒密码加密，以此类推。</p>
-<p>解密过程</p>
-<p>解密时，需要知道密钥词。计算出每个密文字母相对于对应密钥字母的偏移量，然后还原出明文。例如，如果密文是“RDLUL”，密钥是“KEY”，对于字母R，因为K对应的偏移量是10，所以往前推10个字母就可以得到H，从而解出。</p>
-<h3 id="栅栏密码"><a href="#栅栏密码" class="headerlink" title="栅栏密码"></a>栅栏密码</h3><p>栅栏密码把要加密的明文分成N个一组，然后把每组的第一个字连起来，形成一段无规律的话，</p>
-<p>例如：</p>
-<ul>
-<li>THERE IS A CIPHER</li>
-<li>均分成两组，每组两个</li>
-<li>TH  ER EI SA CI PH ER</li>
-<li>先取出第一个字母，再取出第二个</li>
-<li>TEESCPEHRIAIHR</li>
-</ul>
-<h2 id="base家族"><a href="#base家族" class="headerlink" title="base家族"></a>base家族</h2><h3 id="base16"><a href="#base16" class="headerlink" title="base16"></a>base16</h3><p> 1.使用16个ASCII可打印字符（数字0-9和字母A-F），对任意字节数据进行编码。</p>
-<p>2.先获取输入字符串每个字节的二进制值（不足8比特在高位补0），然后将其串联进来，再按照4比特一组进行切</p>
-<p>分，将每组二进制数分别转换成十进制。</p>
-<p>流程：给定的字符串根据Ascll标转化成二进制–&gt;重新划分–&gt;再转化为16进制</p>
-<p>注：可以看到8比特数据按照4比特切分刚好是两组，所以Base16不可能用到填充符号“&#x3D;”。 换句话说：</p>
-<p>Base16使用两个ASCII字符去编码原数据中的一个字节数据。</p>
-<h3 id="base32"><a href="#base32" class="headerlink" title="base32"></a>base32</h3><p>1.Base32编码是使用32个可打印字符（字母A-Z和数字2-7）对任意字节数据进行编码。</p>
-<p>2.Base32主要用于编码二进制数据，但是Base32也能够编码诸如ASCII之类的二进制文本。</p>
-<p>3.Base32将任意字符串按照字节进行切分，并将每个字节对应的二进制值（不足8比特高位补0）串联起来，按照5</p>
-<p>比特一组进行切分，并将每组二进制值转换成十进制来对应32个可打印字符中的一个。</p>
-<p>由于数据的二进制传输是按照8比特一组进行（即一个字节），因此Base32按5比特切分的二进制数据必须是40比</p>
-<p>特的倍数（5和8的最小公倍数）。</p>
-<p>流程：给定的字符串根据Ascll标转化成二进制–&gt;重新划分–&gt;再根据码表转换</p>
-<p>重新划分：划分时最后不够5的后面先补0，总体不够40比特的倍数的补等号（一个等号就是5bit）</p>
-<h3 id="base64"><a href="#base64" class="headerlink" title="base64"></a>base64</h3><p>Base64是一种基于64个可打印字符来表示二进制数据的表示方法。由于，所以每6个比特为一个单元，对应某个可</p>
-<p>打印字符。3个字节有24个比特，对应于4个Base64单元，即3个字节可由4个可打印字符来表示。</p>
-<p>由于数据的二进制传输是按照8比特一组进行（即一个字节），因此Base64按6比特切分的二进制数据必须是24比</p>
-<p>特的倍数（8和6的最小公倍数）。</p>
-<p>流程：给定的字符串根据Ascll标转化成二进制–&gt;重新划分–&gt;再根据码表转换</p>
-<p>重新划分：划分时最后不够6的后面先补0，总体不够24比特的倍数的补等号（一个等号就是6bit）</p>
-<h3 id="辨析"><a href="#辨析" class="headerlink" title="辨析"></a>辨析</h3><p>是否有&#x3D;，有为base32和base64，是否有1，有为base64，无为base32</p>
-<p>都无&#x3D;，不一定就是base16，base16只有字母A~F（特点）也可以有0</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/02/week1/" data-id="cm7fw5n7u0002vcvmgmug42z7" data-title="week1" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/11/02/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2024-11-02T08:13:29.050Z" itemprop="datePublished">2024-11-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/11/02/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/02/hello-world/" data-id="cm7fw5n7v0003vcvm4kug27fx" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-week2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/11/02/week2/" class="article-date">
-  <time class="dt-published" datetime="2024-11-02T05:25:47.275Z" itemprop="datePublished">2024-11-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>title: week2<br>date: 2024-11-02 13:25:47<br>tags：</p>
-<h1 id="Misc的基本解题思路"><a href="#Misc的基本解题思路" class="headerlink" title="Misc的基本解题思路"></a>Misc的基本解题思路</h1><h2 id="大致分类"><a href="#大致分类" class="headerlink" title="大致分类"></a>大致分类</h2><ul>
-<li><p><input checked="" disabled="" type="checkbox"> 
-编码解码</p>
-</li>
-<li><p><input checked="" disabled="" type="checkbox"> 
-隐写（图片，音频，视频，文本）</p>
-</li>
-<li><p><input checked="" disabled="" type="checkbox"> 
-压缩包处理（zip，rar）</p>
-</li>
-<li><p><input checked="" disabled="" type="checkbox"> 
-流量分析（协议，文件，usb，wifi）</p>
-</li>
-<li><p><input disabled="" type="checkbox"> 
-攻击取证（日志分析，内存分析，文件镜像）</p>
-<h2 id="编码解码"><a href="#编码解码" class="headerlink" title="编码解码"></a>编码解码</h2></li>
-</ul>
-<p>解题思路：拿到一段文本时，首先要分析属于哪一种编码，判断无误后，可以通过在线解码网站如<a target="_blank" rel="noopener" href="http://www.hiencode.com/">CTF在线工具-CTF工具|CTF编码|CTF密码学|CTF加解密|程序员工具|在线编解码</a>和解码软件进行解码。</p>
-<p><strong>重难点在于快速识别各种编码以及熟练掌握对应的解码方法</strong>。</p>
-<p>需要牢记一些编码的特征</p>
-<ul>
-<li><p>shellcode编码后的字符串特征是每个字节前面都有”\x”。</p>
-</li>
-<li><p>Quoted-printable编码最显著的特征是每个字节前面都有“&#x3D;”，利用在线网页<a target="_blank" rel="noopener" href="http://web.chacuo.net/charsetquotedprintable%E5%92%8CCyberChef%E5%8F%AF%E4%BB%A5%E5%AE%9E%E7%8E%B0%E7%BC%96%E7%A0%81%E5%92%8C%E8%A7%A3%E7%A0%81%E5%8A%9F%E8%83%BD%E3%80%82">http://web.chacuo.net/charsetquotedprintable和CyberChef可以实现编码和解码功能。</a></p>
-</li>
-<li><p>UUencode编码后的字符串的特征是：所有字符看起来像乱码，但都是可打印字符；如果有多行，那么除了最后一行，都以“M”开头。UUencode可以使用在线工具<a target="_blank" rel="noopener" href="http://web.chacuo.net/charsetuuencode%E5%AE%9E%E7%8E%B0%E8%A7%A3%E7%A0%81%E3%80%82">http://web.chacuo.net/charsetuuencode实现解码。</a></p>
-</li>
-<li><p>Brainfuck编码：为OoK，[ ], &gt; &lt; + - . , 的样式，用在线解码网站<a target="_blank" rel="noopener" href="https://www.splitbrain.org/services/ook%E5%AE%9E%E7%8E%B0%E7%BC%96%E7%A0%81%E5%92%8C%E8%A7%A3%E7%A0%81%E3%80%82%E5%9C%A8CTF%E7%BB%83%E4%B9%A0%E5%B9%B3%E5%8F%B0%E4%B8%8A%E6%9C%89%E4%B8%80%E9%81%93%E5%90%8D%E4%B8%BA%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81%E7%9A%84%E9%A2%98%E5%B0%B1%E6%98%AF%E6%AD%A4%E7%BC%96%E7%A0%81%E3%80%82">https://www.splitbrain.org/services/ook实现编码和解码。在CTF练习平台上有一道名为编码解码的题就是此编码。</a></p>
-<h2 id="隐写"><a href="#隐写" class="headerlink" title="隐写"></a>隐写</h2><h3 id="PNG图片隐写"><a href="#PNG图片隐写" class="headerlink" title="PNG图片隐写"></a>PNG图片隐写</h3><p>PNG图片隐写做题思路：</p>
-<p>拿到图片后先看图片是否有缺失，如果有八成是修改图片的高度问题，就在010里面找到IHDR去修改长或宽，保存一下看是否有flag。</p>
-<p>在010里面看文件头是否完整，文件头为89 50 4E 47，若不完整需要新建16进制文件补充完整后复制粘贴再保存。</p>
-<p>把png图片放在StegSolve软件里去查看，可能会隐藏一个二维码。</p>
-<p>在010里面查找关键词，如flag，可能有的flag会隐藏在里面。</p>
-<h3 id="LSB隐写"><a href="#LSB隐写" class="headerlink" title="LSB隐写"></a>LSB隐写</h3><p>解题思路：</p>
-<p>把图片放到stegsolve里，然后Analyse 点dataextract，进入色彩通道，勾选红，绿，蓝为0，选择LSB，然后预览（preview）</p>
-<p>可能就能预览到flag或flag的一部分，也可能得到实体编码，把多余元素去掉再转为16进制。</p>
-<p>还有一种是点击SaveBin，再次查看图片，此时也许会隐藏着一个二维码。</p>
-<h3 id="GIF图片隐写"><a href="#GIF图片隐写" class="headerlink" title="GIF图片隐写"></a>GIF图片隐写</h3><p>解题思路：</p>
-<p>将它在stegsolve里打开，在Analyse里选FrameBrowser，进行一帧一帧地查看。可能会隐藏二维码。</p>
-<h3 id="文本隐写"><a href="#文本隐写" class="headerlink" title="文本隐写"></a>文本隐写</h3><p>目前只接触到零宽隐写，例题为字里行间的秘密，很神奇。</p>
-<p><strong>注意：复制文本时要用快捷键ctrl+A全选，再复制粘贴。否则很可能会漏掉内容。</strong></p>
-<p>可以在在线网站上进行解题。</p>
-<p>打开word文档更改字体颜色。</p>
-<h2 id="压缩包"><a href="#压缩包" class="headerlink" title="压缩包"></a>压缩包</h2><h3 id="伪加密"><a href="#伪加密" class="headerlink" title="伪加密"></a>伪加密</h3><p>原理：一个zip文件由三个部分组成：压缩源文件数据区+压缩源文件目录区+压缩源文件目录结束标志</p>
-<p>压缩源文件数据区：50 4B 03 04 是zip的头文件，14 00是解压文件所需要的pkware版本，01 00是全局方式位标记（<strong>判断有无加密的重要标志</strong>），08 00是压缩方式 ，5A 7E：最后修改文件时间，F7 46：最后修改文件日期</p>
-<p>压缩源文件目录区：<br>50 4B 01 02：目录中文件文件头标记，3F 00：压缩使用的 pkware 版本，14 00：解压文件所需 pkware 版本<br>00 00：全局方式位标记（有无加密的重要标志，这个更改这里进行伪加密，改为09 00打开就会提示有密码了）<br>08 00：压缩方式，5A 7E：最后修改文件时间，F7 46：最后修改文件日期，16 B5 80 14：CRC-32校验（1480B516）<br>19 00 00 00：压缩后尺寸（25），17 00 00 00：未压缩尺寸（23），07 00：文件名长度，24 00：扩展字段长度<br>00 00：文件注释长度，00 00：磁盘开始号，00 00：内部文件属性，20 00 00 00：外部文件属性<br>00 00 00 00：局部头部偏移量</p>
-<p>压缩源文件目录结束标志：<br>50 4B 05 06：目录结束标记，00 00：当前磁盘编号，00 00：目录区开始磁盘编号，01 00：本磁盘上纪录总数<br>01 00：目录区中纪录总数，59 00 00 00：目录区尺寸大小，3E 00 00 00：目录区对第一张磁盘的偏移量<br>00 00：ZIP 文件注释长度</p>
-<p><strong>解题思路</strong>：</p>
-<p>将zip文件放到010里面，把50 4B 03 04后的第3、4个byte改成0000还有把50 4B 01 02后的第5、6个byte改成0000即可破解伪加密。如果解压缩失败要注意是否是STORED(0)仅储存的格式，应改成DEFLATE(8),即更改00 为08.</p>
-<p><strong>区分</strong></p>
-<p>无加密</p>
-<p>压缩源文件数据区的全局加密应当为00 00</p>
-<p>且压缩源文件目录区的全局方式位标记应当为00 00</p>
-<p>假加密</p>
-<p>压缩源文件数据区的全局加密应当为00 00</p>
-<p>且压缩源文件目录区的全局方式位标记应当为09 00</p>
-<p>真加密</p>
-<p>压缩源文件数据区的全局加密应当为09 00</p>
-<p>且压缩源文件目录区的全局方式位标记应当为09 00</p>
-<h3 id="爆破攻击"><a href="#爆破攻击" class="headerlink" title="爆破攻击"></a>爆破攻击</h3><p>使用爆破软件ARCHPR</p>
-<p><strong>掩码攻击</strong></p>
-<p>如果我们知道密码中的一部分，只需按规则构造其余部分，这个时候位置所代表的字节内容未知。掩码攻击的原理相当于构造了前4字节为那么可以构造abcd？？？？进行掩码攻击，其中“？”是占位符，表示该就可以利用掩码方式破解密码。假设已知8位密码的前4字节是abcd，abcd的字典，因此掩码攻击的效率会比暴力破解高出很多。利用掩码攻击时，“长度”选项卡暂时失效，需要我们自己确定破解的长度。</p>
-<p>例如例题中^([a-z]){3}\d[a-z]$。即为密码：前三个字符为小写a到z，然后有一个字符为数字，最后一个字符为小写字母a到z。本题将使用ARCHPR工具进行解题，掩码为???4?，数字从0-9的未知数字，手动试出数字为4时可以爆破出密码。</p>
-<h2 id="流量分析"><a href="#流量分析" class="headerlink" title="流量分析"></a>流量分析</h2><p>工具：Wireshark</p>
-<p><strong>通用方法与思路</strong>：</p>
-<p>先看文件分组数，如果分组数较少，说明考点较直接，杂包过滤不是重点。如果过多，通过协议分级看到各协议的比例，如果流量中存在Telnet、FTP、ICMP等明文传输协议，建议通过追踪流或过滤的方法，优先看这些的通信过程。</p>
-<p>如果没有上述协议，而是存在大量（字节占比较大）的HTTP，就通过”统计-HTTP-请求“工具查看请求或者载荷。</p>
-<p>如果离线文件中均没有上述协议，就需要结合题目的描述进行分析。例如，若题目中存在大量DNS协议，就需要重点关注<strong>查询的域名</strong><em><strong>以及对该域名的响应。</strong></em>假如存在USB协议，则需要结合协议载荷判断设备类型，再根据设备通信规则复原出传输的信息。</p>
-<p>本次练习题中有一道DNS</p>
-<p>通过查询协议分级，几何题目考虑重点查看DNS。在显示过滤器中输入“dns”后，可以发现每个异常的域名都请求了2次，把所有可疑域名提取出来，去除所有的”.192.168.191.129”（IP地址）,重复项仅保留一个，再拼接到一起，将得到的文段用16进制转字符串，再用Base64解码，就可以得到flag。</p>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/02/week2/" data-id="cm7fw5n7w0004vcvmcl8c8hox" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2024/12/19/Python%E9%80%86%E5%90%91-PYC/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2024/12/06/upx%E8%84%B1%E5%A3%B3/">upx脱壳</a>
-          </li>
-        
-          <li>
-            <a href="/2024/11/02/week1/">week1</a>
-          </li>
-        
-          <li>
-            <a href="/2024/11/02/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
-            <a href="/2024/11/02/week2/">(no title)</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2025 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.6.4.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">5</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-02-22T13:55:40.756Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222059493.jpg);"><div id="footer-wrap"><div class="copyright">&copy;2025 By 第二支羽毛</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.3</a></div><div class="footer_custom_text">勇气是开始与结束的一束光</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: str => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: subtitleType => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        btf.getScript('https://cdn.jsdelivr.net/npm/typed.js/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  }
+}
+btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
+</script><script>function subtitleType () {
+  if (true) {
+    typedJSFn.init("-生命是一万次春和景明")
+  } else {
+    document.getElementById("subtitle").textContent = "-"
+  }
+}
+typedJSFn.run(subtitleType)</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
