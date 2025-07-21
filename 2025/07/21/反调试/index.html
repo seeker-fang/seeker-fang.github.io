@@ -1,0 +1,421 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>反调试 | Born to Shine</title><meta name="author" content="第二支羽毛"><meta name="copyright" content="第二支羽毛"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="反调试反调试是什么？反调试是用来检测并阻止程序被调试器（debugger）分析的一种技术，当程序意识到自己可能处于调试中的时候，可能会改变正常的执行路径或者修改自身程序让自己崩溃，从而增加调试时间和复杂度。 函数检测函数检测就是通过 Windows 自带的公开或未公开的函数直接检测程序是否处于调试状态。    Windows API 作用    IsDebuggerPresent 检测当前进程是否">
+<meta property="og:type" content="article">
+<meta property="og:title" content="反调试">
+<meta property="og:url" content="http://example.com/2025/07/21/%E5%8F%8D%E8%B0%83%E8%AF%95/index.html">
+<meta property="og:site_name" content="Born to Shine">
+<meta property="og:description" content="反调试反调试是什么？反调试是用来检测并阻止程序被调试器（debugger）分析的一种技术，当程序意识到自己可能处于调试中的时候，可能会改变正常的执行路径或者修改自身程序让自己崩溃，从而增加调试时间和复杂度。 函数检测函数检测就是通过 Windows 自带的公开或未公开的函数直接检测程序是否处于调试状态。    Windows API 作用    IsDebuggerPresent 检测当前进程是否">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222102230.jpg">
+<meta property="article:published_time" content="2025-07-21T14:19:47.000Z">
+<meta property="article:modified_time" content="2025-07-21T12:25:53.423Z">
+<meta property="article:author" content="第二支羽毛">
+<meta property="article:tag" content="反调试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222102230.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "反调试",
+  "url": "http://example.com/2025/07/21/%E5%8F%8D%E8%B0%83%E8%AF%95/",
+  "image": "https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222102230.jpg",
+  "datePublished": "2025-07-21T14:19:47.000Z",
+  "dateModified": "2025-07-21T12:25:53.423Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "第二支羽毛",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2025/07/21/%E5%8F%8D%E8%B0%83%E8%AF%95/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":50,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '反调试',
+  isHighlightShrink: true,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222128421.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222102230.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Born to Shine</span></a><a class="nav-page-title" href="/"><span class="site-name">反调试</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">反调试</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-07-21T14:19:47.000Z" title="发表于 2025-07-21 22:19:47">2025-07-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-07-21T12:25:53.423Z" title="更新于 2025-07-21 20:25:53">2025-07-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0/">逆向学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="反调试"><a href="#反调试" class="headerlink" title="反调试"></a>反调试</h1><h2 id="反调试是什么？"><a href="#反调试是什么？" class="headerlink" title="反调试是什么？"></a>反调试是什么？</h2><p>反调试是用来<strong>检测并阻止程序被调试器（debugger）分析</strong>的一种技术，当程序意识到自己可能处于调试中的时候，可能会改变正常的执行路径或者修改自身程序让自己崩溃，从而增加调试时间和复杂度。</p>
+<h2 id="函数检测"><a href="#函数检测" class="headerlink" title="函数检测"></a>函数检测</h2><p>函数检测就是通过 Windows 自带的公开或未公开的函数直接检测程序是否处于调试状态。</p>
+<table>
+<thead>
+<tr>
+<th>Windows API</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IsDebuggerPresent</td>
+<td>检测当前进程是否被调试</td>
+</tr>
+<tr>
+<td>CheckRemoteDebuggerPresent</td>
+<td>检测一个远程进程是否处于调试状态</td>
+</tr>
+<tr>
+<td>NtQueryInformationProcess()</td>
+<td>获取进程信息，判断调试状态</td>
+</tr>
+</tbody></table>
+<h3 id="IsDebuggerPresent"><a href="#IsDebuggerPresent" class="headerlink" title="IsDebuggerPresent"></a>IsDebuggerPresent</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BOOL WINAPI <span class="title">IsDebuggerPresent</span>(<span class="params"><span class="keyword">void</span></span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>该函数查询进程环境块（PEB）中的 <code>BeingDebugged</code> 标志，如果进程处在调试上下文中，则返回1，否则返回0。</p>
+<h3 id="CheckRemoteDebuggerPresent"><a href="#CheckRemoteDebuggerPresent" class="headerlink" title="CheckRemoteDebuggerPresent"></a>CheckRemoteDebuggerPresent</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BOOL WINAPI <span class="title">CheckRemoteDebuggerPresent</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">  _In_    HANDLE hProcess,</span></span></span><br><span class="line"><span class="params"><span class="function">  _Inout_ PBOOL  pbDebuggerPresent</span></span></span><br><span class="line"><span class="params"><span class="function"></span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>如果 <code>hProcess</code> 句柄表示的进程处于调试上下文，则设置 <code>pbDebuggerPresent</code> 变量被设置为 <code>TRUE</code>，否则被设置为 <code>FALSE</code>。</p>
+<h3 id="NtQueryInformationProcess"><a href="#NtQueryInformationProcess" class="headerlink" title="NtQueryInformationProcess"></a>NtQueryInformationProcess</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">NTSTATUS WINAPI <span class="title">NtQueryInformationProcess</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">  _In_      HANDLE           ProcessHandle,</span></span></span><br><span class="line"><span class="params"><span class="function">  _In_      PROCESSINFOCLASS ProcessInformationClass,</span></span></span><br><span class="line"><span class="params"><span class="function">  _Out_     PVOID            ProcessInformation,</span></span></span><br><span class="line"><span class="params"><span class="function">  _In_      ULONG            ProcessInformationLength,</span></span></span><br><span class="line"><span class="params"><span class="function">  _Out_opt_ PULONG           ReturnLength</span></span></span><br><span class="line"><span class="params"><span class="function"></span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>第二个参数 <code>ProcessInformationClass</code> 给定了需要查询的进程信息类型。当给定值为 <code>0</code>（<code>ProcessBasicInformation</code>）或 <code>7</code>（<code>ProcessDebugPort</code>）时，就能得到相关调试信息，返回信息会写到第三个参数 <code>ProcessInformation</code> 指向的缓冲区中。</p>
+<h2 id="数据检测"><a href="#数据检测" class="headerlink" title="数据检测"></a>数据检测</h2><p>数据检测是指程序通过测试一些与调试相关的关键位置的数据来判断是否处于调试状态。比如上面所说的 PEB 中的 <code>BeingDebugged</code> 参数。数据检测就是直接定位到这些数据地址并测试其中的数据，从而避免调用函数，使程序的行为更加隐蔽。</p>
+<h3 id="BeingDebugged"><a href="#BeingDebugged" class="headerlink" title="BeingDebugged"></a>BeingDebugged</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BOOL <span class="title">CheckDebug</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">int</span> BeingDebug = <span class="number">0</span>;</span><br><span class="line">    __asm</span><br><span class="line">    &#123;</span><br><span class="line">        mov eax, dword ptr fs:[<span class="number">30</span>h]   ; 指向PEB基地址</span><br><span class="line">        movzx eax, <span class="built_in">byte</span> ptr [eax+<span class="number">2</span>]</span><br><span class="line">        mov BeingDebug, eax</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> BeingDebug != <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个函数采用了 <strong>汇编方式直接访问 PEB（进程环境块）结构</strong> 中的 <code>BeingDebugged</code> 字段来检测程序是否正在被调试器调试。如果检测到，就返回 <code>TRUE</code>，否则返回 <code>FALSE</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov eax, dword ptr fs:[30h]   ; 指向PEB基地址</span><br></pre></td></tr></table></figure>
+
+<p><code>fs:[0x30]</code> 是 <strong>Windows 下的一个特殊寄存器段寄存器（FS段）</strong>。</p>
+<p>在 32 位进程中，<code>fs:[0x30]</code> 存的是 <strong>PEB（Process Environment Block）</strong> 的地址。</p>
+<p>所以这一步：取出当前进程的 PEB 指针。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">movzx eax, byte ptr [eax+2]</span><br></pre></td></tr></table></figure>
+
+<p>它读取的是 <code>PEB+2</code> 偏移的那个字节，即 <code>BeingDebugged</code> 字段。</p>
+<p>它是一个 <code>BYTE</code> 类型，含义是：</p>
+<ul>
+<li><code>0x00</code> 表示未被调试</li>
+<li><code>0x01</code> 表示当前进程正在被调试</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov BeingDebug, eax</span><br></pre></td></tr></table></figure>
+
+<p>把 eax的值存入变量 <code>BeingDebug</code>中。</p>
+<h3 id="NtGlobalFlag"><a href="#NtGlobalFlag" class="headerlink" title="NtGlobalFlag"></a>NtGlobalFlag</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BOOL <span class="title">CheckDebug</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">int</span> BeingDbg = <span class="number">0</span>;</span><br><span class="line">    __asm</span><br><span class="line">    &#123;</span><br><span class="line">        mov eax, dword ptr fs:[<span class="number">30</span>h]</span><br><span class="line">        mov eax, dword ptr [eax + <span class="number">68</span>h]</span><br><span class="line">        <span class="keyword">and</span> eax, <span class="number">0x70</span></span><br><span class="line">        mov BeingDbg, eax</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> BeingDbg != <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个运行原理是调试器中启动的进程与正常启动的进程创建堆的方式有些不同，系统使用PEB结构偏移量0x68处的一个未公开的位置NtGlobalFlag，来决定如何创建堆结构。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov eax, dword ptr [eax + <span class="number">68</span>h]</span><br></pre></td></tr></table></figure>
+
+<p>读取 PEB + 0x68 偏移处的值。（在32位程序中）</p>
+<p>这个字段是：<code>NtGlobalFlag</code> —— <strong>只有在进程由调试器启动时才会设置</strong>，这个值会被设置为特殊值<code>十六进制 0x70</code>。运行中附加并不会改变这个值。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> eax, <span class="number">0x70</span></span><br></pre></td></tr></table></figure>
+
+<p>通过 <code>0x70</code>（即 <code>0111 0000</code>）保留 NtGlobalFlag 中的三个标志值：</p>
+<table>
+<thead>
+<tr>
+<th>标志值</th>
+<th>名称</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>0x10</code></td>
+<td><code>FLG_HEAP_ENABLE_TAIL_CHECK</code></td>
+<td>堆尾检查，调试器专用</td>
+</tr>
+<tr>
+<td><code>0x20</code></td>
+<td><code>FLG_HEAP_ENABLE_FREE_CHECK</code></td>
+<td>堆释放检查，调试器专用</td>
+</tr>
+<tr>
+<td><code>0x40</code></td>
+<td><code>FLG_HEAP_VALIDATE_PARAMETERS</code></td>
+<td>堆参数校验，调试器专用</td>
+</tr>
+</tbody></table>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov BeingDbg, eax</span><br></pre></td></tr></table></figure>
+
+<p>将这几个标志保存到变量中。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> BeingDbg != <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<p>如果这些调试相关的标志中任意一个被设置，函数就返回 <code>TRUE</code>（说明被调试器创建）。</p>
+<h2 id="进程检测"><a href="#进程检测" class="headerlink" title="进程检测"></a>进程检测</h2><p>进程检测通过检测当前桌面中是否存在特定的调试进程来判断是否存在调试器，但不能判断该调试器是否正在调试该程序。</p>
+<p>例如</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">BOOL <span class="title function_">CheckDebug</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (FindWindowA(<span class="string">&quot;x32dbg&quot;</span>, <span class="number">0</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="特征码检测"><a href="#特征码检测" class="headerlink" title="特征码检测"></a>特征码检测</h2><p>特征码检测枚举当前正在运行的进程，并在进程的内存空间中搜索特定调试器的代码片段。</p>
+<p>例如 OllyDbg 有这样一段特征码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0x41, 0x00, 0x62, 0x00, 0x6f, 0x00, 0x75, 0x00, 0x74, 0x00,</span><br><span class="line">0x20, 0x00, 0x4f, 0x00, 0x6c, 0x00, 0x6c, 0x00, 0x79, 0x00,</span><br><span class="line">0x44, 0x00, 0x62, 0x00, 0x67, 0x00, 0x00, 0x00, 0x4f, 0x00,</span><br><span class="line">0x4b, 0x00, 0x00, 0x00</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">BOOL <span class="title function_">CheckDebug</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    BYTE sign[] = &#123;<span class="number">0x41</span>, <span class="number">0x00</span>, <span class="number">0x62</span>, <span class="number">0x00</span>, <span class="number">0x6f</span>, <span class="number">0x00</span>, <span class="number">0x75</span>, <span class="number">0x00</span>, <span class="number">0x74</span>, <span class="number">0x00</span>,</span><br><span class="line">                <span class="number">0x20</span>, <span class="number">0x00</span>, <span class="number">0x4f</span>, <span class="number">0x00</span>, <span class="number">0x6c</span>, <span class="number">0x00</span>, <span class="number">0x6c</span>, <span class="number">0x00</span>, <span class="number">0x79</span>, <span class="number">0x00</span>,</span><br><span class="line">                <span class="number">0x44</span>, <span class="number">0x00</span>, <span class="number">0x62</span>, <span class="number">0x00</span>, <span class="number">0x67</span>, <span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x4f</span>, <span class="number">0x00</span>,</span><br><span class="line">                <span class="number">0x4b</span>, <span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x00</span>;&#125;</span><br><span class="line"></span><br><span class="line">    PROCESSENTRY32 sentry32 = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    sentry32.dwSize = <span class="keyword">sizeof</span>(sentry32);</span><br><span class="line">    HANDLE phsnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, <span class="number">0</span>);	<span class="comment">//创建一个快照，遍历所有进程。</span></span><br><span class="line"></span><br><span class="line">    Process32First(phsnap, &amp;sentry32);</span><br><span class="line">    <span class="keyword">do</span>&#123;</span><br><span class="line">        HANDLE hps = OpenProcess(MAXIMUM_ALLOWED, FALSE, sentry32.th32ProcessID);</span><br><span class="line">        <span class="keyword">if</span> (hps != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            DWORD szReaded = <span class="number">0</span>;</span><br><span class="line">            BYTE signRemote[<span class="keyword">sizeof</span>(sign)];</span><br><span class="line">            ReadProcessMemory(hps, (LPCVOID)<span class="number">0x4f632a</span>, signRemote, <span class="keyword">sizeof</span>(signRemote), &amp;szReaded);</span><br><span class="line">            <span class="comment">//试读取每个进程地址为 0x004F632A 的内存，并比较内容是否与 sign 匹配。</span></span><br><span class="line">            <span class="keyword">if</span> (szReaded &gt; <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">memcmp</span>(sign, signRemote, <span class="keyword">sizeof</span>(sign)) == <span class="number">0</span>)</span><br><span class="line">                &#123;	<span class="comment">//如果完全匹配，则推断这个进程是 OllyDbg，或者和它内存布局类似。</span></span><br><span class="line">                    CloseHandle(phsnap);</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    sentry32.dwSize = <span class="keyword">sizeof</span>(sentry32);</span><br><span class="line">&#125;<span class="keyword">while</span>(Process32Next(phsnap, &amp;sentry32));</span><br></pre></td></tr></table></figure>
+
+<p>这段代码扫描所有进程，读取每个进程某个特定内存地址（0x004F632A），并判断该处内容是否匹配 “About OllyDbg”（Unicode 编码）。如果匹配，就说明系统中有可能在运行 OllyDbg 调试器，从而返回异常行为。</p>
+<p>原理：OllyDbg 在启动时其 <code>.data</code> 节或资源数据段中固定包含 “About OllyDbg\0OK\0” 字符串，且位置稳定</p>
+<h2 id="时间检测"><a href="#时间检测" class="headerlink" title="时间检测"></a>时间检测</h2><p>时间检测是指在程序中通过代码感知程序处于调试时与未处于调试时的各种运行时间差异来判断程序是否处于调试状态。</p>
+<p>例如我们在调试时步过两条指令所花费的时间远远超过CPU正常执行花费的时间，于是就可以通过rdtsc指令（汇编指令）或者GetTickCount函数（WindowsAPI）来进行测试。</p>
+<h3 id="rdtsc"><a href="#rdtsc" class="headerlink" title="rdtsc"></a>rdtsc</h3><p>rdtsc指令用于将时间标签计数器读入EDX：EAX寄存器。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">BOOL <span class="title function_">CheckDebug</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> BeingDbg = <span class="number">0</span>;</span><br><span class="line">    _asm</span><br><span class="line">    &#123;</span><br><span class="line">        rdtsc</span><br><span class="line">        mov ecx,edx</span><br><span class="line">        rdtsc</span><br><span class="line">        sub edx,ecx</span><br><span class="line">        mov BeingDbg,edx</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(BeingDbg &gt;<span class="number">2</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>时间检测型反调试函数</strong>，通过调用两次 <code>RDTSC</code> 指令比较时间差，如果中间被断点（调试器）拖慢了，就判断为正在调试。</p>
+<h3 id="GetTickCount"><a href="#GetTickCount" class="headerlink" title="GetTickCount"></a>GetTickCount</h3><p>GetTickCount返回从操作系统启动所经过的毫秒数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">BOOL <span class="title function_">CheckDebug</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	DWORD time1 = GetTickCount();	<span class="comment">//获取当前系统启动以来经过的时间（单位：毫秒）</span></span><br><span class="line">    _asm</span><br><span class="line">    &#123;</span><br><span class="line">        mov ecx,<span class="number">10</span></span><br><span class="line">        mov edx,<span class="number">6</span></span><br><span class="line">        mov ecx,<span class="number">10</span></span><br><span class="line">    &#125;</span><br><span class="line">    DWORD time2 = GetTickCount();	<span class="comment">//再次读取当前时间</span></span><br><span class="line">    <span class="keyword">if</span>(time2-time1 &gt;<span class="number">0x1A</span>)	<span class="comment">//时间相差大于26 毫秒</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> TRUE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> FALSE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果两次读取之间花费了超过 26ms，就认为程序在中间被“<strong>暂停过</strong>”，可能是调试器单步或断点。</p>
+<h2 id="断点检测"><a href="#断点检测" class="headerlink" title="断点检测"></a>断点检测</h2><p>断点检测是根据调试器设置断点的原理来检测软件代码中是否设置了断点。调试器一般使用两者方法设置代码断点：</p>
+<ul>
+<li>通过修改代码指令为 INT3（机器码为0xCC）触发软件异常</li>
+<li>通过硬件调试寄存器设置硬件断点</li>
+</ul>
+<h3 id="软件断点检测"><a href="#软件断点检测" class="headerlink" title="软件断点检测"></a>软件断点检测</h3><p>针对软件断点，检测系统会扫描比较重要的代码区域，看是否存在多余的 INT3 指令。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BOOL <span class="title">CheckDebug</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    PIMAGE_DOS_HEADER pDosHeader;</span><br><span class="line">    PIMAGE_NT_HEADERS32 pNtHeaders;</span><br><span class="line">    PIMAGE_SECTION_HEADER pSectionHeader;</span><br><span class="line">    DWORD dwBaseImage = (DWORD)GetModuleHandle(NULL);</span><br><span class="line">    pDosHeader = (PIMAGE_DOS_HEADER)dwBaseImage;</span><br><span class="line">    pNtHeaders = (PIMAGE_NT_HEADERS32)((DWORD)pDosHeader + pDosHeader-&gt;e_lfanew);</span><br><span class="line">    pSectionHeader = (PIMAGE_SECTION_HEADER)((DWORD)pNtHeaders + <span class="keyword">sizeof</span>(pNtHeaders-&gt;Signature) + <span class="keyword">sizeof</span>(IMAGE_FILE_HEADER) +</span><br><span class="line">                     (WORD)pNtHeaders-&gt;FileHeader.SizeOfOptionalHeader);</span><br><span class="line">    DWORD dwAddr = pSectionHeader-&gt;VirtualAddress + dwBaseImage;</span><br><span class="line">    DWORD dwCodeSize = pSectionHeader-&gt;SizeOfRawData;</span><br><span class="line">    BOOL Found = FALSE;</span><br><span class="line">    __asm</span><br><span class="line">    &#123;</span><br><span class="line">        cld</span><br><span class="line">        mov     edi,dwAddr		;要扫描的起始地址</span><br><span class="line">        mov     ecx,dwCodeSize	;扫描的长度</span><br><span class="line">        mov     al,<span class="number">0</span>CCH			;调试断点指令 INT <span class="number">3</span></span><br><span class="line">        repne   scasb   		;一次扫描一个字节，直到找到 AL 中的 <span class="number">0xCC</span></span><br><span class="line">        jnz     NotFound</span><br><span class="line">        mov Found,<span class="number">1</span></span><br><span class="line">NotFound:</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Found;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果找到了 <code>0xCC</code>，就跳转到 <code>Found</code>，并设置 <code>Found = 1</code> </p>
+<h3 id="硬件断点检测"><a href="#硬件断点检测" class="headerlink" title="硬件断点检测"></a>硬件断点检测</h3><p> 而对于硬件断点，由于程序工作在保护模式下，无法访问硬件调试断点，所以一般需要构建异常程序来获取 DR 寄存器的值</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">BOOL <span class="title function_">CheckDebug</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    CONTEXT context;  </span><br><span class="line">    HANDLE hThread = GetCurrentThread();  </span><br><span class="line">    context.ContextFlags = CONTEXT_DEBUG_REGISTERS;  </span><br><span class="line">    GetThreadContext(hThread, &amp;context);  </span><br><span class="line">    <span class="keyword">if</span> (context.Dr0 != <span class="number">0</span> || context.Dr1 != <span class="number">0</span> || context.Dr2 != <span class="number">0</span> || context.Dr3!=<span class="number">0</span>)</span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Dr0</code>~&#96;Dr3&#96; 是 4 个硬件断点寄存器</p>
+<p>调试器（如 x64dbg）设置硬断点时，会在这些寄存器中写入地址</p>
+<p><strong>基于硬件断点的反调试检测</strong>方法，原理是检测当前线程的调试寄存器（<code>Dr0</code>~&#96;Dr3&#96;）是否被设置。如果其中任意一个寄存器不为 0，则说明可能存在<strong>硬件断点</strong>，进而推测当前程序正被调试。</p>
+<h2 id="题目练习"><a href="#题目练习" class="headerlink" title="题目练习"></a>题目练习</h2><p>使用IDA打开后发现只有两行</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507151032233.png"></p>
+<p>查看一下爆红地方的汇编</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507151034363.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov     eax, offset loc_4010DE</span><br><span class="line">jmp     eax</span><br></pre></td></tr></table></figure>
+
+<p>这是跳转到<code>loc_4010DE</code> 处执行，关键是这里的指令是<strong>int 2Dh</strong>。</p>
+<p><code>int 2D</code> 是一个 <strong>保留中断</strong>，在正常系统中并不会产生作用。</p>
+<p><strong>但在某些调试器（如 OllyDbg、SoftICE）下</strong>，这个中断可能会引起异常或特定处理逻辑。</p>
+<p>如果程序运行在没有调试器的环境下，可能不会崩溃；但如果有调试器，它可能会：</p>
+<ul>
+<li>触发一个 <strong>异常</strong>（通常是非法指令）</li>
+<li>导致程序崩溃或行为异常</li>
+<li>被用来测试调试器是否存在（调试器通常会捕获异常）</li>
+</ul>
+<p>这里我们直接nop掉它就行。</p>
+<p>nop了之后，我在main的函数头进行U将这个函数解除定义，再使用P让main函数重新定义一下。但是发现F5反编译还是原来的两行代码，这里就出现问题了<code>jmp eax</code> 造成了<strong>控制流断裂</strong>。</p>
+<p>简单来说就是：<code>jmp eax</code> 是 <strong>间接跳转</strong>，IDA 默认<strong>无法静态分析</strong>出 <code>eax</code> 的值是 <code>loc_4010DE</code>，所以 IDA <strong>不会自动跟进控制流</strong>，loc_4010DE后面的逻辑并没有被反编译出来。</p>
+<p>可以手动将 <code>jmp eax</code> 替换为 <code>jmp loc_4010DE</code>，这样就变成了一个<strong>直接跳转</strong>，IDA 就能追踪控制流。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507161347523.png"></p>
+<p>也可以把 <code>jmp eax</code> 指令改为 <code>nop</code> 填充，意味着程序将不再跳转，而是继续顺序执行 <code>loc_4010DE</code> 后的代码。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507151101814.png"></p>
+<p>把这个问题解决后，再使用U解除函数定义，然后再使用P重构一下main函数。F5反编译，这次就能反编译出来了。</p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507151806007.png" style="zoom:80%;" />
+
+<p>进行分析，flag长度检测等价于</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if (strlen(flag) == 0 || strlen(flag) &gt;= 30)</span><br></pre></td></tr></table></figure>
+
+<p>所以flag的长度要大于0，小于30.</p>
+<p>sub_4013F0(&amp;v18)读取数据到v18中，我们需要知道具体的数据是什么，flag验证逻辑要用到它。</p>
+<p>sub_4012A0(flag, (int)v9)是得到flag进行base64加密后的值。 </p>
+<p>进入sub_4013F0(&amp;v18)，会发现这里有很多反调试，这个函数的作用是生成一组数据供验证flag使用，而这些反调试的作用是修改这些原本正确的数据，如果使用动态调试来看数据就会被误导。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507151149209.png"></p>
+<p><strong>第一个反调试是数据检测BeingDebugged。</strong>先取出当前进程的 PEB 指针。然后访问 <code>PEB+2</code> 的位置，即 <code>BeingDebugged</code> 字段，BeingDebugged是一个BYTE，如果进程处于被调试状态，这个字段值是1，否则是 0。把 <code>al</code> 的值保存到栈上的局部变量 <code>[ebp+var_51]</code>，再判断当前是否是调试状态（与 0 比较），对于这条指令<strong>cmp [ebp+var_51], 0</strong>，如果检测到调试，那么两者不相等，标志位ZF就设置为0，反之，如果未检测到调试，ZF就是1。（ZF是零标志位，作用是标记上一次算术或逻辑操作的结果是否为 0。）</p>
+<p>下一条汇编指令<strong>setnz al</strong> ：<code>setnz</code> 是 <code>set if not zero</code> 的缩写，即 <strong>“设置非零”</strong>，它会检查标志寄存器中的 <strong>ZF（Zero Flag）</strong></p>
+<p>ZF &#x3D; 0 → 说明比较结果不为零（即条件成立）→ al &#x3D; 1<br>ZF &#x3D; 1 → 比较结果为零（条件不成立）→ al &#x3D; 0</p>
+<p>最后把 <code>0x32</code>（十进制 50）加到 <code>al</code> 上：如果al&#x3D;0，未调试，al&#x3D;50&#x3D;”2”。如果al&#x3D;1，被调试，al&#x3D;51&#x3D;”3”。正常来看this[0]&#x3D;2。</p>
+<p><strong>第二个是IsDebuggerPresent</strong>，如果当前进程没有被调试，<code>IsDebuggerPresent()</code> 返回 0，赋值 <code>84</code>（’T’）</p>
+<p>否则返回 1，赋值 <code>116</code>（’t’）。</p>
+<p>详细的解释：<code>test    eax, eax</code>等价于 <code>cmp eax, 0</code>，检查 <code>EAX</code> 是否为 0,如果检测到调试了，eax是1，那么这条指令会使ZF&#x3D;0，反之ZF&#x3D;1。</p>
+<p><code>jnz = jump if not zero</code> → 当 <strong>ZF &#x3D;&#x3D; 0 时跳转</strong></p>
+<p> 所以：如果程序被调试（eax&#x3D;1 → ZF&#x3D;0）→ <strong>跳转到 0x40142D</strong>，<code>al</code> 保持 <code>&#39;t&#39;</code></p>
+<p>​	    如果未被调试（eax&#x3D;0 → ZF&#x3D;1）→ <strong>不跳转，执行下一句</strong>，<code>al</code>变为<code>&#39;T&#39;</code></p>
+<p>所以正确的this[1]&#x3D;’T’</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507151536056.png"></p>
+<p><strong>第三个是函数检测CheckRemoteDebuggerPresent</strong>，它是检查另一个进程是否在调试当前进程。通常配合 <code>GetCurrentProcess()</code> 用于自检。<code>pbDebuggerPresent</code> 是一个 <code>BOOL</code> 值的变量地址，函数调用后填充它：被调试就返回1，没有被调试就返回0。</p>
+<p>那么真正的 this[2]&#x3D;0+86&#x3D;’V’</p>
+<p><strong>第四个是OutputDebugStringA + GetLastError trick</strong>，它是检测调试器是否读过调试信息。</p>
+<p><code>SetLastError(12345)</code> 设置一个错误码</p>
+<p><code>OutputDebugStringA(&quot;Hello&quot;)</code> 会让调试器接收一条调试信息</p>
+<ul>
+<li>如果没有调试器监听，这条调试信息没人读取，<code>LastError</code> 不会改变</li>
+<li>如果有调试器监听，它会<strong>清空</strong> <code>LastError</code></li>
+</ul>
+<p>再次调用 <code>GetLastError()</code>：</p>
+<ul>
+<li>如果是 <code>12345</code>：<strong>说明没有调试器</strong></li>
+<li>如果不是 <code>12345</code>：<strong>说明有调试器</strong></li>
+</ul>
+<p>所以真正的this[3]&#x3D;1+’A’&#x3D;’B’</p>
+<p><strong>第五个是函数检测NtQueryInformationProcess</strong>，它使用 ntdll.dll 中的函数访问 <code>ProcessDebugPort</code>。</p>
+<p>如果程序正在被调试：<code>ProcessDebugPort</code> 返回非零（调试端口有效），那么v8&#x3D;’N’</p>
+<p>如果没有调试器：<code>v17 = 0</code> 表示未被调试,v8&#x3D;’n’</p>
+<p>所以真正的this[4]&#x3D;v8&#x3D;’n’</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( CloseHandle((HANDLE)<span class="number">0x1234</span>) || (v2 = GetLastError() == <span class="number">6</span>, v9 = <span class="number">120</span>, !v2) )</span><br><span class="line">    v9 = <span class="number">121</span>;</span><br><span class="line">this[<span class="number">5</span>] = v9;</span><br></pre></td></tr></table></figure>
+
+<p><strong>第六个是GetLastError 检测</strong></p>
+<ul>
+<li><code>CloseHandle(0x1234)</code>：关闭一个假的（非法的）句柄。<code>0x1234</code> 不是一个有效的句柄。所以在正常情况下 <code>CloseHandle</code> 会返回 <strong>0（失败）</strong>。并且调用失败后，<code>GetLastError()</code> 返回的是：ERROR_INVALID_HANDLE (值为 6)</li>
+<li>逗号运算符 <code>(A, B, C)</code> 会依次计算 <code>A</code>、<code>B</code>、<code>C</code>，整个表达式的值是最后一个子表达式的结果。这里：<ol>
+<li><strong><code>v2 = (GetLastError() == 6)</code></strong><ul>
+<li><code>GetLastError()</code> 正常返回 <code>6</code> → <code>v2 = 1</code></li>
+</ul>
+</li>
+<li><strong><code>v9 = 120</code></strong><ul>
+<li>将 <code>v9</code> 设为 <code>120</code>，也就是 ASCII <code>&#39;x&#39;</code></li>
+</ul>
+</li>
+<li><strong><code>!v2</code></strong><ul>
+<li><code>v2 == 1</code> → <code>!v2 == 0</code></li>
+<li>这就是整个逗号表达式的值</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<p>因此在“正常”情况下两边都为 0，<code>if</code> 条件 <strong>不成立</strong>，<strong>不会</strong>执行 <code>v9 = 121</code>。最终 <code>v9</code> 保留为先前赋的 <code>120</code> (<code>&#39;x&#39;</code>)。</p>
+<p>如果调试器或其他异常篡改 → &#96;this[5] &#x3D; ‘y’</p>
+<p>所以真正的this[5]&#x3D;v8&#x3D;’x’</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CurrentProcessId = GetCurrentProcessId();</span><br><span class="line">this[<span class="number">6</span>] = DebugActiveProcess(CurrentProcessId) + <span class="number">48</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>第七个是DebugActiveProcess</strong></p>
+<p>第一行时将获取当前正在运行的进程的 ID存入变量里，</p>
+<p><code>DebugActiveProcess(CurrentProcessId)</code>: 这是一个 Windows API 函数。它的作用是附加到一个正在运行的进程，并开始调试它。也就是调试它自己。</p>
+<p>如果程序已经被调试，返回 <code>true</code>，eax &#x3D; 1。</p>
+<p>如果未被调试，返回 <code>false</code>，eax &#x3D; 0。</p>
+<p>this[6]&#x3D;0+48&#x3D;48,将ascii码换成字符是0</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">GetStartupInfoA(&amp;StartupInfo);</span><br><span class="line"><span class="keyword">if</span> ( StartupInfo.dwX</span><br><span class="line">  || StartupInfo.dwY</span><br><span class="line">  || StartupInfo.dwFillAttribute</span><br><span class="line">  || StartupInfo.dwXSize</span><br><span class="line">  || StartupInfo.dwYSize</span><br><span class="line">  || StartupInfo.dwXCountChars</span><br><span class="line">  || (v11 = <span class="number">108</span>, StartupInfo.dwYCountChars) )</span><br><span class="line">&#123;</span><br><span class="line">  v11 = <span class="number">49</span>;</span><br><span class="line">&#125;</span><br><span class="line">this[<span class="number">7</span>] = v11;</span><br></pre></td></tr></table></figure>
+
+<p><strong>第八个是GetStartupInfoA 检测</strong></p>
+<p>第一行代码是获取当前进程启动时的一些信息（保存在 <code>STARTUPINFOA</code> 结构体中），比如窗口位置、大小、光标等。</p>
+<p>然后检测这些结构体的字段是否非0，如果<strong>这些字段中有任何一个不为 0</strong>，就认为“启动信息被干预了”。因为正常执行程序时，这些字段 <strong>通常都是 0</strong>，那么如果都是0的话就没有检测到，v11&#x3D;108，这个if条件为假。但凡有一个非零，这个if条件就是真，v11&#x3D;49.</p>
+<p>所以正确的 this[7] &#x3D; v11&#x3D;’l’。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">v17 = <span class="number">8</span>;</span><br><span class="line">  sub_401580(this, &amp;v17);</span><br><span class="line">  v12 = __rdtsc();</span><br><span class="line">  pbDebuggerPresent = v12;                      <span class="comment">// 获取时间戳计数器</span></span><br><span class="line">  v13 = __rdtsc();</span><br><span class="line">  this[v17] = (<span class="type">unsigned</span> <span class="type">int</span>)(v13 - pbDebuggerPresent) &lt; <span class="number">0xFF</span> ? <span class="number">110</span> : <span class="number">78</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>第九个是时间检测</strong></p>
+<p>主要看那个三目运算式</p>
+<p>如果 <code>v13 - pbDebuggerPresent &lt; 0xFF</code>：表示运行非常快 → 没被调试 → <code>&#39;n&#39;</code></p>
+<p>否则：有调试行为（断点、单步等） → <code>&#39;N&#39;</code></p>
+<p>正确的this[8] &#x3D; ‘n’</p>
+<p><strong>第十个是进程检测</strong></p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507151729288.png" style="zoom:80%;" />
+
+<p><code>stricmp(a, b)</code> 是大小写无关的字符串比较函数：</p>
+<ul>
+<li>如果 <code>a</code> 和 <code>b</code> 相等 → 返回 <code>0</code>（表示找到）</li>
+<li>如果不相等 → 返回非 0</li>
+</ul>
+<p>所以正常情况下，this[9]&#x3D;’n’</p>
+<p>综上我们就知道了这个真正的数据是”2TVBnx0lnn”</p>
+<p>那我们来分析一下验证逻辑</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( *((<span class="type">char</span> *)&amp;v18 + v8) != v9[<span class="number">2</span> * v8 + <span class="number">1</span>] ||v9[<span class="number">2</span> * v8] + <span class="number">2</span> != (off_404018[v8] ^ <span class="number">3</span>) )</span><br></pre></td></tr></table></figure>
+
+<p>v8相当于i，i&#x3D;9,共进行10轮循环。</p>
+<p>奇数比较，<strong>v9[2*i+1]&#x3D;&#x3D;V18[i]</strong></p>
+<p>偶数比较，<strong>v9[2*i]&#x3D;(off_404018[v8] ^ 3)-2</strong></p>
+<p>我们也知道了off_404018[v8]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507151819510.png"></p>
+<p>那就可以写出来exp了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line">v18=<span class="string">&quot;2TVBnx0lnn&quot;</span></span><br><span class="line">off_404018 = <span class="string">&quot;LKd8gPYWS[&quot;</span></span><br><span class="line"><span class="built_in">str</span>=[<span class="string">&#x27;&#x27;</span>]*<span class="number">20</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    <span class="built_in">str</span>[i*<span class="number">2</span>+<span class="number">1</span>]=v18[i]</span><br><span class="line">    <span class="built_in">str</span>[i*<span class="number">2</span>]=<span class="built_in">chr</span>((<span class="built_in">ord</span>(off_404018[i])^<span class="number">3</span>)-<span class="number">2</span>)</span><br><span class="line">encode_str=<span class="string">&#x27;&#x27;</span>.join(<span class="built_in">str</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;构造的 Base64 字符串:&quot;</span>, encode_str)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Base64 解码</span></span><br><span class="line">flag_bytes = base64.b64decode(encode_str)<span class="comment">#解码之后返回的是一个 bytes 类型的对象（二进制形式的数据）</span></span><br><span class="line">flag = flag_bytes.decode(<span class="string">&#x27;utf-8&#x27;</span>)<span class="comment">#这一步是将 字节（bytes）转换成普通的字符串（str）</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;还原得到的 flag:&quot;</span>, <span class="string">f&quot;flag&#123;&#123;<span class="subst">&#123;flag&#125;</span>&#125;&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#构造的 Base64 字符串: M2FTeV9BbnQxX0RlNnVn</span></span><br><span class="line"><span class="comment">#还原得到的 flag: flag&#123;3aSy_Ant1_De6ug&#125;</span></span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">第二支羽毛</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/07/21/%E5%8F%8D%E8%B0%83%E8%AF%95/">http://example.com/2025/07/21/%E5%8F%8D%E8%B0%83%E8%AF%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">Born to Shine</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%8F%8D%E8%B0%83%E8%AF%95/">反调试</a></div><div class="post-share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222102230.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/07/21/SMC/" title="SMC"><img class="cover" src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222116881.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">SMC</div></div><div class="info-2"><div class="info-item-1">SMC什么是SMCSMC（Self Modified Code），也就是自修改代码。它是在执行过程中修改自身指令的代码或数据，来组织别人直接静态分析，然后在动态运行程序时对代码进行解密，达到程序正常运行的效果。 VirtualProtect 函数通常用于代码自加密的场景。代码自加密是一种保护代码不被轻易逆向分析的技术，通过在程序运行时动态地修改代码的内存保护属性，使得代码在执行时可以被修改和执行，但在不执行时则不能被读取或修改。 123456BOOL VirtualProtect(  LPVOID lpAddress,           // 要修改的内存起始地址  SIZE_T dwSize,              // 要修改的字节数  DWORD  flNewProtect,        // 新的保护属性  PDWORD lpflOldProtect       // 原始保护属性（输出）);  它的作用是：修改指定内存区域的访问权限（如改为可读写可执行），并返回之前的保护属性。这是在Windows程序里。 mprotect()函数是在Linux...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222128421.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">第二支羽毛</div><div class="author-info-description">观我旧往，同我仰春</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/seeker-fang"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/seeker-fang" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">总要记些什么证明我来过</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8D%E8%B0%83%E8%AF%95"><span class="toc-number">1.</span> <span class="toc-text">反调试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E8%B0%83%E8%AF%95%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">反调试是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%A3%80%E6%B5%8B"><span class="toc-number">1.2.</span> <span class="toc-text">函数检测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IsDebuggerPresent"><span class="toc-number">1.2.1.</span> <span class="toc-text">IsDebuggerPresent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CheckRemoteDebuggerPresent"><span class="toc-number">1.2.2.</span> <span class="toc-text">CheckRemoteDebuggerPresent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NtQueryInformationProcess"><span class="toc-number">1.2.3.</span> <span class="toc-text">NtQueryInformationProcess</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A3%80%E6%B5%8B"><span class="toc-number">1.3.</span> <span class="toc-text">数据检测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BeingDebugged"><span class="toc-number">1.3.1.</span> <span class="toc-text">BeingDebugged</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NtGlobalFlag"><span class="toc-number">1.3.2.</span> <span class="toc-text">NtGlobalFlag</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E6%A3%80%E6%B5%8B"><span class="toc-number">1.4.</span> <span class="toc-text">进程检测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E5%BE%81%E7%A0%81%E6%A3%80%E6%B5%8B"><span class="toc-number">1.5.</span> <span class="toc-text">特征码检测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%A3%80%E6%B5%8B"><span class="toc-number">1.6.</span> <span class="toc-text">时间检测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#rdtsc"><span class="toc-number">1.6.1.</span> <span class="toc-text">rdtsc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GetTickCount"><span class="toc-number">1.6.2.</span> <span class="toc-text">GetTickCount</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%AD%E7%82%B9%E6%A3%80%E6%B5%8B"><span class="toc-number">1.7.</span> <span class="toc-text">断点检测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E6%96%AD%E7%82%B9%E6%A3%80%E6%B5%8B"><span class="toc-number">1.7.1.</span> <span class="toc-text">软件断点检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E6%96%AD%E7%82%B9%E6%A3%80%E6%B5%8B"><span class="toc-number">1.7.2.</span> <span class="toc-text">硬件断点检测</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E7%BB%83%E4%B9%A0"><span class="toc-number">1.8.</span> <span class="toc-text">题目练习</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/07/21/%E5%8F%8D%E8%B0%83%E8%AF%95/" title="反调试"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222102230.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="反调试"/></a><div class="content"><a class="title" href="/2025/07/21/%E5%8F%8D%E8%B0%83%E8%AF%95/" title="反调试">反调试</a><time datetime="2025-07-21T14:19:47.000Z" title="发表于 2025-07-21 22:19:47">2025-07-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/21/SMC/" title="SMC"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222116881.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SMC"/></a><div class="content"><a class="title" href="/2025/07/21/SMC/" title="SMC">SMC</a><time datetime="2025-07-21T13:19:47.000Z" title="发表于 2025-07-21 21:19:47">2025-07-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/21/picoCTF%202024/" title="picoCTF"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222116882.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="picoCTF"/></a><div class="content"><a class="title" href="/2025/07/21/picoCTF%202024/" title="picoCTF">picoCTF</a><time datetime="2025-07-21T12:19:47.000Z" title="发表于 2025-07-21 20:19:47">2025-07-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/17/%E8%8A%B1%E6%8C%87%E4%BB%A4/" title="花指令"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222102230.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="花指令"/></a><div class="content"><a class="title" href="/2025/07/17/%E8%8A%B1%E6%8C%87%E4%BB%A4/" title="花指令">花指令</a><time datetime="2025-07-17T13:20:38.000Z" title="发表于 2025-07-17 21:20:38">2025-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/03/%E9%A2%98%E7%9B%AE%E5%A4%8D%E7%8E%B01/" title="题目复现1"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222116881.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="题目复现1"/></a><div class="content"><a class="title" href="/2025/04/03/%E9%A2%98%E7%9B%AE%E5%A4%8D%E7%8E%B01/" title="题目复现1">题目复现1</a><time datetime="2025-04-03T12:33:19.000Z" title="发表于 2025-04-03 20:33:19">2025-04-03</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222102230.jpg);"><div id="footer-wrap"><div class="copyright">&copy;2025 By 第二支羽毛</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.3</a></div><div class="footer_custom_text">勇气是开始与结束的一束光</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
