@@ -1,0 +1,299 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>题目复现2 | Born to Shine</title><meta name="author" content="第二支羽毛"><meta name="copyright" content="第二支羽毛"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="题目复现21.BUU-[FlareOn6]Overlong解题思路老步骤，先查壳，发现是无壳32位，直接IDA打开。  发现函数特别少，还挺简洁的。  我们能分析出来，Text是我们要的flag，最终会使用弹窗输出出来，我们可以直接动调看看，发现是  这个弹窗上的像是没有输出完一样，我们就查看unk_3D2008的数据有多少。 发现这个数据其实有很多很多 起始地址是0x003D2008  结束地址">
+<meta property="og:type" content="article">
+<meta property="og:title" content="题目复现2">
+<meta property="og:url" content="http://example.com/2025/08/27/%E9%A2%98%E7%9B%AE%E5%A4%8D%E7%8E%B02/index.html">
+<meta property="og:site_name" content="Born to Shine">
+<meta property="og:description" content="题目复现21.BUU-[FlareOn6]Overlong解题思路老步骤，先查壳，发现是无壳32位，直接IDA打开。  发现函数特别少，还挺简洁的。  我们能分析出来，Text是我们要的flag，最终会使用弹窗输出出来，我们可以直接动调看看，发现是  这个弹窗上的像是没有输出完一样，我们就查看unk_3D2008的数据有多少。 发现这个数据其实有很多很多 起始地址是0x003D2008  结束地址">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222116882.png">
+<meta property="article:published_time" content="2025-08-27T12:33:19.000Z">
+<meta property="article:modified_time" content="2025-08-27T08:43:48.800Z">
+<meta property="article:author" content="第二支羽毛">
+<meta property="article:tag" content="传说凤凰涅槃时会掉落两支羽毛，一支留给过去，另一支是重生的勇气">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222116882.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "题目复现2",
+  "url": "http://example.com/2025/08/27/%E9%A2%98%E7%9B%AE%E5%A4%8D%E7%8E%B02/",
+  "image": "https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222116882.png",
+  "datePublished": "2025-08-27T12:33:19.000Z",
+  "dateModified": "2025-08-27T08:43:48.800Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "第二支羽毛",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2025/08/27/%E9%A2%98%E7%9B%AE%E5%A4%8D%E7%8E%B02/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":50,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '题目复现2',
+  isHighlightShrink: true,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222128421.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222116882.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Born to Shine</span></a><a class="nav-page-title" href="/"><span class="site-name">题目复现2</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">题目复现2</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-08-27T12:33:19.000Z" title="发表于 2025-08-27 20:33:19">2025-08-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-08-27T08:43:48.800Z" title="更新于 2025-08-27 16:43:48">2025-08-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%A2%98%E7%9B%AE%E5%A4%8D%E7%8E%B0/">题目复现</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="题目复现2"><a href="#题目复现2" class="headerlink" title="题目复现2"></a>题目复现2</h1><h2 id="1-BUU-FlareOn6-Overlong"><a href="#1-BUU-FlareOn6-Overlong" class="headerlink" title="1.BUU-[FlareOn6]Overlong"></a>1.BUU-[FlareOn6]Overlong</h2><h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>老步骤，先查壳，发现是无壳32位，直接IDA打开。</p>
+<p> 发现函数特别少，还挺简洁的。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507241617387.png"></p>
+<p>我们能分析出来，Text是我们要的flag，最终会使用弹窗输出出来，我们可以直接动调看看，发现是</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507241619840.png"></p>
+<p>这个弹窗上的像是没有输出完一样，我们就查看<strong>unk_3D2008</strong>的数据有多少。</p>
+<p>发现这个数据其实有很多很多</p>
+<p>起始地址是<strong>0x003D2008</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507241625943.png"></p>
+<p>结束地址是<strong>0x003D20B7</strong></p>
+<p><img src="/../LQ/Pictures/PixPin_2025-07-24_16-23-03.png"></p>
+<p>我们可以使用计算器来计算它的大小，得出结果是0xAF</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507241628179.png"></p>
+<p>转到汇编看一下，现在已经清楚是分配的内存空间太小，以至于在进行sub_3D1160函数加密的时候，只能实现0x1C个字节，我们应该把0x1C改成0xAF，这样就能输出完整了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507241615851.png"></p>
+<p>如何改呢，在汇编成面push 1Ch 处打上断点，然后进行调试。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507241636860.png"></p>
+<p>我们可以直接将<code>1C patch 成 AF</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507241638306.png"></p>
+<p>改完后，我们直接按F9让它运行到弹窗，完整的flag就出来了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507241639736.png"></p>
+<h3 id="记录"><a href="#记录" class="headerlink" title="记录"></a>记录</h3><p>本题是给数据分配的内存空间太小，导致flag不完整，可以通过patch来修改内存大小。</p>
+<h2 id="2-BUU-羊城杯-2020-easyre"><a href="#2-BUU-羊城杯-2020-easyre" class="headerlink" title="2.BUU-[羊城杯 2020]easyre"></a>2.BUU-[羊城杯 2020]easyre</h2><h3 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路"></a>解题思路</h3><p>无壳使用IDA打开，分析主函数</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507242056852.png"></p>
+<p>大致的逻辑已经清楚，知道了flag是经过三层加密得到了str2这个密文。我们应该逆向分析，从第三个加密函数开始看起。</p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507242106451.png" style="zoom:80%;" />
+
+<p>这个是对v9按照字符分类加密的，最后得到密文是Str1，也就是Str2。我们进行逆行分析，对Str2分别对应字符分类解密就能得到v9。</p>
+<p>第三个加密方式是凯撒加密 +3，将字母或数字向右平移3位。解密就是凯撒加密 -3就 ok了。</p>
+<p>但是要注意的是：如果直接减可能会变成负数，比如 <code>&#39;A&#39; - 3</code> → <code>&#39;&gt;&#39;</code>（非法），所以我们加上模数再取余</p>
+<p>解密：这里先让c 看作是密文的角标</p>
+<p>大写字母：<code>(ord(c) - ord(&#39;A&#39;) - 3 + 26) % 26 + ord(&#39;A&#39;)</code></p>
+<p>小写字母：<code>(ord(c) - ord(&#39;a&#39;) - 3 + 26) % 26 + ord(&#39;a&#39;)</code></p>
+<p>数字：<code>(ord(c) - ord(&#39;0&#39;) - 3 + 10) % 10 + ord(&#39;0&#39;)</code></p>
+<p>然后分析第二个加密函数</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507242118893.png"></p>
+<p>这个函数中 a3 是 v9 ， a1是 v10，a2 是 v10的长度。我们从上一个加密函数中能解出 v9。</p>
+<p>这个加密的过程是：</p>
+<p>将a1的第0位到第13位赋给a3的第13到26位</p>
+<p>将a1的第13位到第26位赋给a3的第39到52位</p>
+<p>将a1的第26位到第39位赋给a3的第0到13位</p>
+<p>将a1的第39位到第52位赋给a3的第26到39位</p>
+<p>那我们解密时要将 v9 每13位一组分成4组，然后按照这个来重新组合。那我们就能得到v10了。</p>
+<p>a1[00:13] ← a3[13:26]<br>a1[13:26] ← a3[39:52]<br>a1[26:39] ← a3[00:13]<br>a1[39:52] ← a3[26:39]</p>
+<p>接着看第一个加密函数</p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507242128007.png" style="zoom:80%;" />
+
+<p>根据这些特征，可以看出来这个是个base64加密，关键是找到表，表点击alphabet就能看到，这个表就是base64加密标准表，直接解密就好。a3就是v10。</p>
+<h3 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##decode_three</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decode_three</span>(<span class="params">encoded</span>):</span><br><span class="line">    decoded = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> encoded:</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;A&#x27;</span> &lt;= c &lt;= <span class="string">&#x27;Z&#x27;</span>:</span><br><span class="line">            decoded += <span class="built_in">chr</span>((<span class="built_in">ord</span>(c) - <span class="built_in">ord</span>(<span class="string">&#x27;A&#x27;</span>) - <span class="number">3</span> + <span class="number">26</span>) % <span class="number">26</span> + <span class="built_in">ord</span>(<span class="string">&#x27;A&#x27;</span>))</span><br><span class="line">        <span class="keyword">elif</span> <span class="string">&#x27;a&#x27;</span> &lt;= c &lt;= <span class="string">&#x27;z&#x27;</span>:</span><br><span class="line">            decoded += <span class="built_in">chr</span>((<span class="built_in">ord</span>(c) - <span class="built_in">ord</span>(<span class="string">&#x27;a&#x27;</span>) - <span class="number">3</span> + <span class="number">26</span>) % <span class="number">26</span> + <span class="built_in">ord</span>(<span class="string">&#x27;a&#x27;</span>))</span><br><span class="line">        <span class="keyword">elif</span> <span class="string">&#x27;0&#x27;</span> &lt;= c &lt;= <span class="string">&#x27;9&#x27;</span>:</span><br><span class="line">            decoded += <span class="built_in">chr</span>((<span class="built_in">ord</span>(c) - <span class="built_in">ord</span>(<span class="string">&#x27;0&#x27;</span>) - <span class="number">3</span> + <span class="number">10</span>) % <span class="number">10</span> + <span class="built_in">ord</span>(<span class="string">&#x27;0&#x27;</span>))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            decoded += c</span><br><span class="line">    <span class="keyword">return</span> decoded</span><br><span class="line"></span><br><span class="line">cipher = <span class="string">&quot;EmBmP5Pmn7QcPU4gLYKv5QcMmB3PWHcP5YkPq3=cT6QckkPckoRG&quot;</span></span><br><span class="line">plain = decode_three(cipher)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;decode_three结果:&quot;</span>,plain)</span><br><span class="line"></span><br><span class="line"><span class="comment">##decode_two</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decode_two</span>(<span class="params">enc: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(enc) &lt; <span class="number">52</span>:</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">&quot;密文长度不足52字符&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    part1 = enc[<span class="number">13</span>:<span class="number">26</span>]  <span class="comment"># 原 a1[0:13]</span></span><br><span class="line">    part2 = enc[<span class="number">39</span>:<span class="number">52</span>]  <span class="comment"># 原 a1[13:26]</span></span><br><span class="line">    part3 = enc[<span class="number">0</span>:<span class="number">13</span>]   <span class="comment"># 原 a1[26:39]</span></span><br><span class="line">    part4 = enc[<span class="number">26</span>:<span class="number">39</span>]  <span class="comment"># 原 a1[39:52]</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> part1 + part2 + part3 + part4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例</span></span><br><span class="line">enc = <span class="string">&quot;BjYjM2Mjk4NzMR1dIVHs2NzJjY0MTEzM2VhMn0=zQ3NzhhMzhlOD&quot;</span></span><br><span class="line"><span class="comment"># 只取前52位进行解密</span></span><br><span class="line">decrypted = decode_two(enc[:<span class="number">52</span>])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;decode_two结果:&quot;</span>, decrypted)</span><br><span class="line"></span><br><span class="line"><span class="comment">##decode_one</span></span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line">flag = base64.b64decode(decrypted).decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;decode_one结果:&quot;</span>,flag)</span><br><span class="line"></span><br><span class="line"><span class="comment">#decode_three结果: BjYjM2Mjk4NzMR1dIVHs2NzJjY0MTEzM2VhMn0=zQ3NzhhMzhlOD</span></span><br><span class="line"><span class="comment">#decode_two结果: R1dIVHs2NzJjYzQ3NzhhMzhlODBjYjM2Mjk4NzM0MTEzM2VhMn0=</span></span><br><span class="line"><span class="comment">#decode_one结果: GWHT&#123;672cc4778a38e80cb362987341133ea2&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="记录-1"><a href="#记录-1" class="headerlink" title="记录"></a>记录</h3><p>考了凯撒加密，分组排列和base64三种加密方法。</p>
+<h2 id="3-BUU-WUSTCTF2020-level4"><a href="#3-BUU-WUSTCTF2020-level4" class="headerlink" title="3.BUU-[WUSTCTF2020]level4"></a>3.BUU-[WUSTCTF2020]level4</h2><h3 id="解题思路-2"><a href="#解题思路-2" class="headerlink" title="解题思路"></a>解题思路</h3><p>这个题是ELF文件，我们先用IDA打开看看</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507251201924.png"></p>
+<p>这段程序是二叉树 遍历（Traversal），给了三种遍历方式，type1，type2和 type3。我们可以从程序里得到type1和type2的函数内容，但不知道type3进行了什么遍历。我们先看看这些函数都是什么用处。</p>
+<p> <code>init()</code> 函数的作用是初始化一个数据结构，这里是树结构，并从字符串 <code>&quot;I&#123;_&#125;Af2700ih_secTS2Et_wr&quot;</code> 中提取字符并写入结构数组 <code>x</code>。它设置大量全局变量指向特定结构体地址，构建“二叉树”的指针结构。</p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507251536067.png" style="zoom:67%;" />
+
+<p>看看type1，这是中序遍历，中序：左根右。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507251539912.png"></p>
+<p>看看type2，这是后序遍历，后序：左右根</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507251541458.png"></p>
+<p>我们在虚拟机上运行可以知道结果</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507251542902.png"></p>
+<p>但是发现这两种遍历得到的都不是flag，那就是type3遍历，应该是前序遍历。我们<strong>只要已知一个二叉树的中序遍历（In-order）和后序遍历（Post-order）序列，就可以唯一确定这棵二叉树的结构</strong>，从而也就能推出其前序遍历（Pre-order）结果。</p>
+<h3 id="exp-1"><a href="#exp-1" class="headerlink" title="exp"></a>exp</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="type">char</span> post[] = <span class="string">&quot;20f0Th&#123;2tsIS_icArE&#125;e7__w&quot;</span>; <span class="comment">//后序遍历结果</span></span><br><span class="line"><span class="type">char</span> mid[] = <span class="string">&quot;2f0t02T&#123;hcsiI_SwA__r7Ee&#125;&quot;</span>; <span class="comment">//中序遍历结果</span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pre</span><span class="params">(<span class="type">int</span> root,<span class="type">int</span> start,<span class="type">int</span> end)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(start &gt; end)</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">    <span class="type">int</span> i = start;</span><br><span class="line">    <span class="keyword">while</span>(i &lt; end &amp;&amp; mid[i] != post[root])</span><br><span class="line">        i++;   <span class="comment">//定位根在中序的位置</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>,mid[i]);</span><br><span class="line">    <span class="built_in">pre</span>(root - <span class="number">1</span>-(end - i),start,i - <span class="number">1</span>);  <span class="comment">//递归处理左子树</span></span><br><span class="line">    <span class="built_in">pre</span>(root<span class="number">-1</span>,i + <span class="number">1</span>,end);  <span class="comment">//递归处理右子树</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">pre</span>(<span class="number">24</span>,<span class="number">0</span>,<span class="number">24</span>);<span class="comment">//24为flag的位数</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//wctf2020&#123;This_IS_A_7reE&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="记录-2"><a href="#记录-2" class="headerlink" title="记录"></a>记录</h3><p>考了二叉树的三种遍历方式，前序，中序和后序。前序：根左右，中序：左根右，后序：左右根</p>
+<p>而且给定<strong>前序遍历+中序遍历</strong>或者给定了<strong>中序遍历+后序遍历</strong>，二叉树的构造方法都是唯一的</p>
+<h2 id="4-GUET-CTF2019-number-game"><a href="#4-GUET-CTF2019-number-game" class="headerlink" title="4.[GUET-CTF2019]number_game"></a>4.[GUET-CTF2019]number_game</h2><h3 id="解题思路-3"><a href="#解题思路-3" class="headerlink" title="解题思路"></a>解题思路</h3><p>拿到文件后先查壳，这个没有壳，ELF64位，直接放入IDA进行静态分析。</p>
+<p>进入主函数对其进行分析</p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507281430690.png" style="zoom:80%;" />
+
+<p>这个 <code>main</code> 函数的核心流程是输入一段字符串，对其进行<strong>合法性检查、二叉树构建与遍历处理</strong>，并通过一系列检查逻辑，决定是否输出 flag。我们先按照顺序来分析，先看校验是否为合法输入的函数。</p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507281433170.png" style="zoom:80%;" />
+
+<p>这个函数是遍历a1的值，确保a1的值在0~4范围内，否则输出Wrong！</p>
+<p>然后分析构造二叉树的函数<code>sub_400758(&amp;v5, 0, 10)</code>：将输入字符串转为一棵二叉树，返回一个指向根节点的指针（即 <code>_QWORD *</code>）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507281441899.png"></p>
+<p>这个函数返回一个 <code>_QWORD *</code>，即一个指向二叉树节点的指针，每个节点占用 24 字节。<code>v5</code>：用于暂存当前数组中的字符。<code>v6</code>：将作为当前新建的树节点指针。</p>
+<p>第一步：将地址 <code>(a1 + a2)</code> 处的字节读取出来赋值给 <code>v5</code>。 意思是从数组中取出当前下标 <code>a2</code> 的字符。</p>
+<p>第二步：判断是否构造当前节点，如果当前字符是 <code>&#39; &#39;</code>（ASCII 32）或 <code>&#39;\n&#39;</code>（ASCII 10），就不创建节点（这些字符被视为空节点）；</p>
+<p>或者当前索引越界（<code>a2 &gt;= a3</code>），返回空指针。所以此函数跳过空格、换行、或越界位置的内容。</p>
+<p>第三步：分配内存，为当前节点分配 24 字节内存。</p>
+<p>第四步：设置当前节点的值。<code>*(_BYTE *)v6 = v5;</code></p>
+<p>第五步：递归构造左子树，左子节点的索引是 <code>2 * a2 + 1</code>，符合<strong>完全二叉树（堆）数组索引规律</strong>。</p>
+<p>第六步：递归构造右子树，右子节点的索引是 <code>2 * (a2 + 1)</code>，即 <code>2 * a2 + 2</code>。</p>
+<p>第七步：返回当前节点指针。</p>
+<p>然后分析中序遍历函数<code>sub_400807(v4, &amp;v7)</code>：对树进行中序遍历，把结果保存在某个缓冲区中（<code>v7</code> 开头的位置）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507281500341.png"></p>
+<p><code>a1</code>：指向一个结构体或对象的指针，代表<strong>二叉树形结构中的一个节点</strong>。<code>a2</code>：一个缓冲区的地址，用来写入某种输出数据。</p>
+<p>如果当前节点不为空，就递归地遍历其左子树、处理当前节点、再遍历右子树。这实现了中序遍历。其节点结构为：</p>
+<p><code>*(_QWORD *)(a1 + 8)</code> &#x3D; 左子树指针</p>
+<p><code>*(_QWORD *)(a1 + 16)</code> &#x3D; 右子树指针</p>
+<p><code>*(_BYTE *)a1</code> &#x3D; 当前节点值</p>
+<p>然后分析一下 sub_400881(&amp;v7)函数</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507281519409.png"></p>
+<p>它的作用是把输入字符串 <code>a1</code> 中的前 10 个字节依次复制到<strong>某些特定的全局变量地址（全局缓冲区）中</strong>。也就是把中序遍历后的结果放在了缓冲区里面，点进去看看却发现这些都是 <code>&#39;#&#39;</code> ，我们需要知道这些具体的数据。</p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507281522470.png" style="zoom:80%;" />
+
+<p>我们先继续往下进行分析，现在要分析sub_400917()函数，这是最后的校验逻辑</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507281524630.png"></p>
+<p>很明显的这是从unk_601060缓冲区开始读取25个字节，把它看作5x5的矩阵来分析，逻辑是对于每一行和每一列都要求元素不相同，简单来说，这就是一个数独游戏，我们可以根据这个校验逻辑来算出中序遍历的结果是什么。这里我选择手动计算。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507281530982.png"></p>
+<p>我们现在就知道了这个中序遍历后的结果是<code>0421421430</code>，那么我们现在要求的flag是v5，也就是输入构成二叉树的数据，我们只需要得出这个二叉树中序遍历访问的节点顺序，然后一一映射就能得出flag。</p>
+<p>这里可以通过写脚本得出中序遍历的节点顺序，也可以动调。动调的方法参考</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45892237/article/details/115664816">https://blog.csdn.net/qq_45892237/article/details/115664816</a></p>
+<p>节点顺序是<code>[7, 3, 8, 1, 9, 4, 0, 5, 2, 6]</code>，一一映射举个例子，比如第一个节点是7，那么节点为7储存的就是中序遍历后的第一个数据为’0’，我们要将这个0移动到下标为7的位置。也就是以这个节点顺序为新的索引重新排列得到原来的数据。</p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507281550587.jpg" style="zoom: 67%;" />
+
+<h3 id="exp-2"><a href="#exp-2" class="headerlink" title="exp"></a>exp</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">inorder_indices</span>(<span class="params">pos, n</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;根据给定的特殊规则，对二叉树索引做中序遍历，返回节点访问顺序列表&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> pos &gt;= n:</span><br><span class="line">        <span class="keyword">return</span> []</span><br><span class="line">    <span class="keyword">return</span> inorder_indices(<span class="number">2</span> * pos + <span class="number">1</span>, n) + [pos] + inorder_indices(<span class="number">2</span> * (pos + <span class="number">1</span>), n)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 原始输入字符串（长度为10）</span></span><br><span class="line">original = <span class="built_in">list</span>(<span class="string">&quot;0421421430&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 二叉树节点数</span></span><br><span class="line">n = <span class="built_in">len</span>(original)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算中序遍历索引顺序</span></span><br><span class="line">mapping = inorder_indices(<span class="number">0</span>, n)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;中序遍历得到的节点访问顺序：&quot;</span>, mapping)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将原来第i位字符放到mapping[i]位置</span></span><br><span class="line">flag = [<span class="string">&#x27;&#x27;</span>] * n</span><br><span class="line"><span class="keyword">for</span> i, pos <span class="keyword">in</span> <span class="built_in">enumerate</span>(mapping):</span><br><span class="line">    flag[pos] = original[i]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;最终的 flag：&quot;</span>, <span class="string">&#x27;&#x27;</span>.join(flag))</span><br><span class="line"><span class="comment">## flag ：1134240024</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="记录-3"><a href="#记录-3" class="headerlink" title="记录"></a>记录</h3><p>考了二叉树的遍历和数独</p>
+<h2 id="5-BUU-ACTF新生赛2020-SoulLike"><a href="#5-BUU-ACTF新生赛2020-SoulLike" class="headerlink" title="5.BUU-[ACTF新生赛2020]SoulLike"></a>5.BUU-[ACTF新生赛2020]SoulLike</h2><h3 id="解题思路-4"><a href="#解题思路-4" class="headerlink" title="解题思路"></a>解题思路</h3><p>先查壳，这个无壳，直接IDA进行分析主函数</p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507291108949.png" style="zoom:80%;" />
+
+<p>这个大致逻辑是将flag从v9[6]的位置开始输入，将 <strong>“actf{“</strong> 写入到v9[0]~v9[4]中，\0写在v9[5]中。然后进入前缀是否相等的判断中。</p>
+<p>v5先设为1，进入判断，如果<strong>v9[i]!&#x3D;v9[i+6]<strong>，那么v5&#x3D;0，跳转到LABEL_6，当循环结束时，会执行</strong>！v5</strong>这个条件跳转，是满足的，会跳转到LABEL_16，这就说明了本质上是要求它们是相等的。</p>
+<p>如果<strong>v9[i]&#x3D;&#x3D;v9[i+6]<strong>，也就是字符串是这个形式actf{actf{xxxxx……，v5还是等于1，</strong>！v5</strong>是0，不会跳转到LABEL_16，而是继续往下执行到LABEL_6。</p>
+<p>进入到LABEL_6的校验逻辑中，v8是v9[11]~v9[22]，也就是除去了flag的前缀头，是flag真正内容的部分。我们要分析sub_83A函数，但是发现了这个函数太大，IDA无法反编译，该怎么办呐？？？</p>
+<p><strong>解决办法：</strong></p>
+<p>我们找到IDA目录，打开 IDA 安装目录下的 <code>IDA/cfg/hexrays.cfg</code> 文件，可能路径会有不同，直接搜索就可以</p>
+<p>找到配置项：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MAX_FUNCSIZE=64</span><br></pre></td></tr></table></figure>
+
+<p>修改为更大的值：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MAX_FUNCSIZE=1024</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507291126119.png"></p>
+<p>然后重启IDA，经过很长一段时间就能成功反编译了</p>
+<p>发现sub_83A函数竟然有3000多行的异或加密，密密麻麻是我的自尊~</p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202507291129080.png" style="zoom:80%;" />
+
+<p>拖到最后知道这个校验逻辑，加密后的flag内容与v3相等，那么可以考虑的是爆破，这里直接用的大佬的exp</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/2201_76139143/article/details/132511141">https://blog.csdn.net/2201_76139143/article/details/132511141</a></p>
+<h3 id="exp-3"><a href="#exp-3" class="headerlink" title="exp"></a>exp</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> v3[<span class="number">12</span>]=&#123;<span class="number">126</span>,<span class="number">50</span>,<span class="number">37</span>,<span class="number">88</span>,<span class="number">89</span>,<span class="number">107</span>,<span class="number">53</span>,<span class="number">110</span>,<span class="number">0</span>,<span class="number">19</span>,<span class="number">30</span>,<span class="number">56</span>&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">sub_83A</span><span class="params">(<span class="type">char</span> *a1,<span class="type">int</span> i)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    *a1 ^= <span class="number">0x2Bu</span>;</span><br><span class="line">    a1[<span class="number">1</span>] ^= <span class="number">0x6Cu</span>;</span><br><span class="line">    a1[<span class="number">2</span>] ^= <span class="number">0x7Eu</span>;</span><br><span class="line">    a1[<span class="number">3</span>] ^= <span class="number">0x56u</span>;</span><br><span class="line">    a1[<span class="number">4</span>] ^= <span class="number">0x39u</span>;</span><br><span class="line">    a1[<span class="number">5</span>] ^= <span class="number">3u</span>;</span><br><span class="line">    a1[<span class="number">6</span>] ^= <span class="number">0x2Du</span>;</span><br><span class="line">    a1[<span class="number">7</span>] ^= <span class="number">0x28u</span>;</span><br><span class="line">    a1[<span class="number">8</span>] ^= <span class="number">8u</span>;</span><br><span class="line">    ++a1[<span class="number">9</span>];</span><br><span class="line">    a1[<span class="number">10</span>] ^= <span class="number">0x2Fu</span>;</span><br><span class="line">    a1[<span class="number">11</span>] ^= <span class="number">0xAu</span>;</span><br><span class="line">    ++*a1;</span><br><span class="line">	<span class="comment">//这里直接将那3000多行代码复制粘贴就行</span></span><br><span class="line">    <span class="comment">//这个不完整，下面省略了</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(a1[i] == v3[i])</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> i,j;</span><br><span class="line">	<span class="type">char</span> flag[<span class="number">13</span>] = <span class="string">&quot;&quot;</span>; <span class="comment">//保存当前尝试的字符串</span></span><br><span class="line">	<span class="type">char</span> tmp[<span class="number">13</span>] = <span class="string">&quot;&quot;</span>;  <span class="comment">//保存已经确定的正确字符</span></span><br><span class="line">	<span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">12</span> ; i++)</span><br><span class="line">	&#123;</span><br><span class="line">	    <span class="keyword">for</span>(j = <span class="number">33</span>; j &lt;= <span class="number">126</span> ; j++) <span class="comment">//尝试常见的可打印字符</span></span><br><span class="line">	    &#123;</span><br><span class="line">	        <span class="built_in">strcpy</span>(flag,tmp);   <span class="comment">//先复制已经确定的正确字符到flag</span></span><br><span class="line">	        flag[i] = j;        <span class="comment">//修改第i个字符为尝试字符j</span></span><br><span class="line">	        <span class="keyword">if</span>(<span class="built_in">sub_83A</span>(flag,i)) <span class="comment">//传入flag和i，判断是否正确</span></span><br><span class="line">	        &#123;</span><br><span class="line">	            tmp[i] = j; <span class="comment">//如果通过，保存字符j到tmp中</span></span><br><span class="line">	            <span class="keyword">break</span>;      <span class="comment">//跳出循环，尝试下一个</span></span><br><span class="line">	        &#125;</span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>,tmp);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//b0Nf|Re_LiT!</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="记录-4"><a href="#记录-4" class="headerlink" title="记录"></a>记录</h3><p>知道一个函数过大IDA无法反编译时可以修改配置文件hexrays.cfg中MAX_FUNCSIZE&#x3D;64，把64换成更大的数，然后就能反编译出来了。这道题可以爆破处理。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">第二支羽毛</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/08/27/%E9%A2%98%E7%9B%AE%E5%A4%8D%E7%8E%B02/">http://example.com/2025/08/27/%E9%A2%98%E7%9B%AE%E5%A4%8D%E7%8E%B02/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">Born to Shine</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222116882.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/08/27/UPX%E6%89%8B%E8%84%B1%E5%A3%B3/" title="UPX手脱壳"><img class="cover" src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222102230.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">UPX手脱壳</div></div><div class="info-2"><div class="info-item-1">UPX手脱壳寻找OEPESP 定律法是脱壳的利器, 是应用频率最高的脱壳方法之一，它的原理在于利用程序中堆栈平衡来快速找到 OEP。 由于在程序自解密或者自解压过程中，不少壳会先将当前寄存器状态压栈，如使用 pushad，在解压结束后会将之前的寄存器值出栈，如使用 popad。因此在寄存器出栈时，往往程序代码被恢复，此时硬件断点触发。然后在程序当前位置，只需要少许单步操作，就很容易到达正确的 OEP 位置。  程序刚载入开始 pushad&#x2F;pushfd 将寄存器压栈后就在 ESP&#x2F;RSP 寄存器所在地址处设硬件访问断点 运行程序，触发断点  找到 pushad 。pushad &#x3D; 一次性保存所有通用寄存器到栈。有的时候不是pushad，而是一连串的 push 将通用寄存器入栈也是一样的。  然后在这个地址处设硬件断点，硬件断点，访问 -&gt; 4字节  然后直接运行，看到程序跳到 popad，显而易见的程序进行弹栈操作后又进行了jmp...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222128421.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">第二支羽毛</div><div class="author-info-description">观我旧往，同我仰春</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/seeker-fang"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/seeker-fang" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">总要记些什么证明我来过</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E5%A4%8D%E7%8E%B02"><span class="toc-number">1.</span> <span class="toc-text">题目复现2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-BUU-FlareOn6-Overlong"><span class="toc-number">1.1.</span> <span class="toc-text">1.BUU-[FlareOn6]Overlong</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="toc-number">1.1.1.</span> <span class="toc-text">解题思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%B0%E5%BD%95"><span class="toc-number">1.1.2.</span> <span class="toc-text">记录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-BUU-%E7%BE%8A%E5%9F%8E%E6%9D%AF-2020-easyre"><span class="toc-number">1.2.</span> <span class="toc-text">2.BUU-[羊城杯 2020]easyre</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">解题思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exp"><span class="toc-number">1.2.2.</span> <span class="toc-text">exp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%B0%E5%BD%95-1"><span class="toc-number">1.2.3.</span> <span class="toc-text">记录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-BUU-WUSTCTF2020-level4"><span class="toc-number">1.3.</span> <span class="toc-text">3.BUU-[WUSTCTF2020]level4</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-2"><span class="toc-number">1.3.1.</span> <span class="toc-text">解题思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exp-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">exp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%B0%E5%BD%95-2"><span class="toc-number">1.3.3.</span> <span class="toc-text">记录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-GUET-CTF2019-number-game"><span class="toc-number">1.4.</span> <span class="toc-text">4.[GUET-CTF2019]number_game</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-3"><span class="toc-number">1.4.1.</span> <span class="toc-text">解题思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exp-2"><span class="toc-number">1.4.2.</span> <span class="toc-text">exp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%B0%E5%BD%95-3"><span class="toc-number">1.4.3.</span> <span class="toc-text">记录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-BUU-ACTF%E6%96%B0%E7%94%9F%E8%B5%9B2020-SoulLike"><span class="toc-number">1.5.</span> <span class="toc-text">5.BUU-[ACTF新生赛2020]SoulLike</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-4"><span class="toc-number">1.5.1.</span> <span class="toc-text">解题思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exp-3"><span class="toc-number">1.5.2.</span> <span class="toc-text">exp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%B0%E5%BD%95-4"><span class="toc-number">1.5.3.</span> <span class="toc-text">记录</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/08/27/%E9%A2%98%E7%9B%AE%E5%A4%8D%E7%8E%B02/" title="题目复现2"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222116882.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="题目复现2"/></a><div class="content"><a class="title" href="/2025/08/27/%E9%A2%98%E7%9B%AE%E5%A4%8D%E7%8E%B02/" title="题目复现2">题目复现2</a><time datetime="2025-08-27T12:33:19.000Z" title="发表于 2025-08-27 20:33:19">2025-08-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/27/UPX%E6%89%8B%E8%84%B1%E5%A3%B3/" title="UPX手脱壳"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222102230.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="UPX手脱壳"/></a><div class="content"><a class="title" href="/2025/08/27/UPX%E6%89%8B%E8%84%B1%E5%A3%B3/" title="UPX手脱壳">UPX手脱壳</a><time datetime="2025-08-27T08:33:19.000Z" title="发表于 2025-08-27 16:33:19">2025-08-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/21/%E5%8F%8D%E8%B0%83%E8%AF%95/" title="反调试"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222116881.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="反调试"/></a><div class="content"><a class="title" href="/2025/07/21/%E5%8F%8D%E8%B0%83%E8%AF%95/" title="反调试">反调试</a><time datetime="2025-07-21T14:19:47.000Z" title="发表于 2025-07-21 22:19:47">2025-07-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/21/SMC/" title="SMC"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222116882.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SMC"/></a><div class="content"><a class="title" href="/2025/07/21/SMC/" title="SMC">SMC</a><time datetime="2025-07-21T13:19:47.000Z" title="发表于 2025-07-21 21:19:47">2025-07-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/21/picoCTF%202024/" title="picoCTF 2024"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222102230.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="picoCTF 2024"/></a><div class="content"><a class="title" href="/2025/07/21/picoCTF%202024/" title="picoCTF 2024">picoCTF 2024</a><time datetime="2025-07-21T12:19:47.000Z" title="发表于 2025-07-21 20:19:47">2025-07-21</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222116882.png);"><div id="footer-wrap"><div class="copyright">&copy;2025 By 第二支羽毛</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.3</a></div><div class="footer_custom_text">勇气是开始与结束的一束光</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
