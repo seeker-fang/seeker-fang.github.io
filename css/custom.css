@@ -1,0 +1,37 @@
+/* 1. 修复毛玻璃导致的字体边缘发虚问题 (全局抗锯齿) */
+body {
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* 2. 透明卡片和毛玻璃效果优化 */
+#page, 
+.layout > div:first-child:not(.recent-posts), 
+.card-widget,
+.recent-posts > .recent-post-item {
+    /* 【关键修改】把透明度从 0.6 调高到 0.85 或者 0.9 */
+    /* 这样能让卡片更白一些，既有微透的高级感，又不会被底色严重干扰 */
+    background: rgba(255, 255, 255, 0.88) !important; 
+    
+    backdrop-filter: blur(10px) !important; 
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: none !important;
+    box-shadow: 0 8px 16px -4px rgba(0,0,0,0.1) !important;
+}
+
+/* 3. 强制加深主内容区和侧边栏的字体颜色，提高对比度 */
+#page, 
+#page p, 
+#page h1, #page h2, #page h3, #page h4, #page h5, #page h6,
+.card-widget, .card-widget .item-headline, .card-widget .item-title {
+    color: #1a1a1a !important; /* 非常接近纯黑的深色，阅读体验最佳 */
+}
+
+/* 4. 适配深色模式（夜间模式保持原来的黑透） */
+[data-theme="dark"] #page, 
+[data-theme="dark"] .layout > div:first-child:not(.recent-posts), 
+[data-theme="dark"] .card-widget,
+[data-theme="dark"] .recent-posts > .recent-post-item {
+    background: rgba(0, 0, 0, 0.6) !important;
+    color: #eeeeee !important; /* 夜间模式字变白 */
+}
