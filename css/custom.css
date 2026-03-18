@@ -1,37 +1,35 @@
-/* 1. 修复毛玻璃导致的字体边缘发虚问题 (全局抗锯齿) */
+/* -------------------------------------
+ * 极简阅读风：纯白卡片 + 字体锐化
+ * ------------------------------------- */
+
+/* 强制开启浏览器字体平滑抗锯齿，告别字体发虚 */
 body {
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
 }
 
-/* 2. 透明卡片和毛玻璃效果优化 */
+/* 统一修改主内容区和侧边栏 */
 #page, 
 .layout > div:first-child:not(.recent-posts), 
 .card-widget,
 .recent-posts > .recent-post-item {
-    /* 【关键修改】把透明度从 0.6 调高到 0.85 或者 0.9 */
-    /* 这样能让卡片更白一些，既有微透的高级感，又不会被底色严重干扰 */
-    background: rgba(255, 255, 255, 0.88) !important; 
+    background: #FFFFFF !important; /* 纯白实体卡片 */
+    backdrop-filter: none !important; /* 彻底关闭毛玻璃 */
+    -webkit-backdrop-filter: none !important;
     
-    backdrop-filter: blur(10px) !important; 
-    -webkit-backdrop-filter: blur(10px) !important;
-    border: none !important;
-    box-shadow: 0 8px 16px -4px rgba(0,0,0,0.1) !important;
+    border: 1px solid #E3E8F7 !important; /* 加一圈极淡的边框，区分卡片和浅灰背景 */
+    box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.05) !important; /* 非常轻柔的悬浮阴影 */
+    color: #1F2D3D !important; /* 字体颜色加深，提高对比度 */
 }
 
-/* 3. 强制加深主内容区和侧边栏的字体颜色，提高对比度 */
-#page, 
-#page p, 
-#page h1, #page h2, #page h3, #page h4, #page h5, #page h6,
-.card-widget, .card-widget .item-headline, .card-widget .item-title {
-    color: #1a1a1a !important; /* 非常接近纯黑的深色，阅读体验最佳 */
-}
-
-/* 4. 适配深色模式（夜间模式保持原来的黑透） */
+/* -------------------------------------
+ * 夜间模式完美适配 (关灯沉浸式阅读)
+ * ------------------------------------- */
 [data-theme="dark"] #page, 
 [data-theme="dark"] .layout > div:first-child:not(.recent-posts), 
 [data-theme="dark"] .card-widget,
 [data-theme="dark"] .recent-posts > .recent-post-item {
-    background: rgba(0, 0, 0, 0.6) !important;
-    color: #eeeeee !important; /* 夜间模式字变白 */
+    background: #1E1E1E !important; /* 护眼深灰底 */
+    border: 1px solid #333333 !important;
+    color: #C9D1D9 !important; /* 柔和的夜间亮灰色字体 */
 }
