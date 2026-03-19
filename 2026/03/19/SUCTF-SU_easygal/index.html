@@ -1,0 +1,264 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>SUCTF-SU_easygal | Born to Shine</title><meta name="author" content="第二支羽毛"><meta name="copyright" content="第二支羽毛"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="记录自己第一次在XCTF分赛里写出来一道题😊">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SUCTF-SU_easygal">
+<meta property="og:url" content="http://example.com/2026/03/19/SUCTF-SU_easygal/index.html">
+<meta property="og:site_name" content="Born to Shine">
+<meta property="og:description" content="记录自己第一次在XCTF分赛里写出来一道题😊">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603181620962.jpg">
+<meta property="article:published_time" content="2026-03-19T07:52:00.000Z">
+<meta property="article:modified_time" content="2026-03-19T07:54:49.020Z">
+<meta property="article:author" content="第二支羽毛">
+<meta property="article:tag" content="传说凤凰涅槃时会掉落两支羽毛，一支留给过去，另一支是重生的勇气">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603181620962.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "SUCTF-SU_easygal",
+  "url": "http://example.com/2026/03/19/SUCTF-SU_easygal/",
+  "image": "https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603181620962.jpg",
+  "datePublished": "2026-03-19T07:52:00.000Z",
+  "dateModified": "2026-03-19T07:54:49.020Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "第二支羽毛",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2026/03/19/SUCTF-SU_easygal/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":1200,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'SUCTF-SU_easygal',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-color: #F4F5F7;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222128421.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603181620962.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Born to Shine</span></a><a class="nav-page-title" href="/"><span class="site-name">SUCTF-SU_easygal</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">SUCTF-SU_easygal</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-19T07:52:00.000Z" title="发表于 2026-03-19 15:52:00">2026-03-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-19T07:54:49.020Z" title="更新于 2026-03-19 15:54:49">2026-03-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%A2%98%E7%9B%AE%E5%A4%8D%E7%8E%B0/">题目复现</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="SUCTF-SU-easygal"><a href="#SUCTF-SU-easygal" class="headerlink" title="SUCTF-SU_easygal"></a>SUCTF-SU_easygal</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>疏狂在上学期间，遇见了总把情绪藏得很深的艺术系学生环奈。</p>
+<p>从校门口被风吹散的画稿开始，到毕业展结束后的樱花树下，这段关系会在一连串看似普通的选择里慢慢推进<br>你需要在 60 个剧情节点中不断做出选择<br>每个选项都会悄悄改变故事最后的走向，而真正的结局，只会留给那条唯一正确的路<br>当你终于走到她面前，也许你会得到一句迟来的回答<br>也许，你只会看着春天结束<br>During his school years, Shukuang meets Kanna, an art student who always hides her emotions deep inside.</p>
+<p>Their story begins with a stack of drawings scattered by the wind at the school gate, and stretches all the way to beneath the cherry blossom tree after the graduation exhibition. Along the way, the relationship slowly develops through a series of seemingly ordinary choices.</p>
+<p>You will need to make decisions across 60 story nodes.</p>
+<p>Each option quietly changes the direction of the story’s final outcome, and the true ending exists only on the one correct path.</p>
+<p>When you finally stand before her, you might receive a long-delayed answer.</p>
+<p>Or perhaps…<br>you will simply watch spring come to an end. 🌸</p>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>这个题是一个il2cpp打包的Unity游戏逆向题，个人感觉还是很有意思的，出的也很有质量。</p>
+<p>关于il2cpp打包的Unity游戏逆向题如何去做，我之前的博文记录过一次。</p>
+<p><strong>传送门</strong>：<a target="_blank" rel="noopener" href="https://seeker-fang.github.io/2025/09/03/CTF%E6%B8%B8%E6%88%8F%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8/">CTF游戏逆向入门</a></p>
+<p>那下面就开始分析吧。</p>
+<p>先打开游戏看看是个啥，恋爱物语嘛？有点意思。有点像早年的橙光游戏（那真是一份美好的回忆😋），也有点像galgame……嘎啦给木里不是这样的，我应该是一眼洞穿flag的天才，身边有很多迷妹迷弟，而不是一只笨的难以言喻的菜鸡😭</p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603182059905.png" alt="image-20260318205914734" style="zoom: 67%;" />
+
+<p>sorry，<del>有点发疯了</del>。我们继续来看。</p>
+<p>进度是60，也就是我们需要选择60次对话，最后会有结局。如果我们能顺利走向成功的结局的话，应该就能顺利拿到flag啦。</p>
+<p>那就开始逆向分析吧，撸起袖子加油干，美女跟我谈恋爱❤️</p>
+<p>先使用<strong>Il2CppDumper</strong>工具来获得 <strong>GameAssembly.dll</strong> 的符号信息。</p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603182059411.png" alt="08181a69f2c59a3888f5a7d4d96d6639" style="zoom:80%;" />
+
+<p>然后得到了如下的文件</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603182108556.png" alt="image-20260318210815494"></p>
+<p>接着用ida打开 <strong>GameAssembly.dll</strong>文件，然后去选择 File -&gt; Script file 去应用 ida_with_struct_py3.py文件。紧接着去打开我们刚刚得到的<strong>script.json</strong>，然后再去导入头文件<strong>il2cpp.h</strong>。</p>
+<p>等待ida加载好。还是会感到函数很多很杂，不知道具体该看哪个，那就CE一下。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603182133318.png" alt="image-20260318213131925"></p>
+<p>能够看到有个很可疑的类名 GameManager，那就去ida里搜索带有这个类名的函数。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603182135210.png" alt="image-20260318213513147"></p>
+<p>那我们就能定位关键逻辑了。</p>
+<p>在GameManager__Star这个函数中，我们能够知道</p>
+<p>trueEndingValue &#x3D; 322</p>
+<p>maxWeight &#x3D; 132</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603191327128.png" alt="image-20260319132704774"></p>
+<p>接着去分析GameManager__OnChoiceSelected函数</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603191339612.png" alt="image-20260319133957527"></p>
+<p>进行大概分析后我们能够知道，这个游戏一共是有60个情景，让你去选择对话，这些对话分别有不同的负重值和好感度，有的有flag标志的字符，或者是marker字符串，然后每选择一次，都会更新当前的状态，并保存，也就是自动存档。</p>
+<p>我们收集到的好感度就存在currentValue变量里，我们收集到到的负重就存在currentWeight里面。</p>
+<p>继续往下分析</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603191358372.png" alt="image-20260319135751313"></p>
+<p>当走完剧情后，就会开始进行结局判断了。也就是说，如果我们想要走到真结局的话，需要满足</p>
+<p><strong>currentWeight &lt;&#x3D; maxWeight&#x3D;&#x3D;132</strong></p>
+<p><strong>currentValue &#x3D;&#x3D; trueEndingValue&#x3D;&#x3D;322</strong></p>
+<p>然后去看一下GameManager__FinishGame函数</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603191413752.png" alt="image-20260319141340580"></p>
+<p>从这里知道了，当触发真结局的时候，会调用FlagUtility__BuildTrueEndingFlag函数去动态生成flag。</p>
+<p>那就跟进去看看</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603191427949.png" alt="image-20260319142752871"></p>
+<p>这个函数先拼接所有的Marker，然后去把这个字符串转成UTF-8字节流，拼接完成后，调用 <code>StringBuilder.ToString()</code> 获取长字符串，然后通过 <code>Encoding.UTF8.GetBytes()</code> 将其转换为可以用于加密的字节数组（<code>buffer</code>）。</p>
+<p>然后实例化一个MD5对象，并对刚才的UTF-8字节数组进行哈希计算，生成一个16字节的MD5结果 v38</p>
+<p>最后就是进行格式化为16进制的文本。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603191430839.png" alt="image-20260319143032774"></p>
+<p>这段 <code>while(1)</code> 循环遍历了 MD5 算出来的 16 个字节，把每一个字节转换成两位小写字母的十六进制字符串（比如把 <code>255</code> 变成 <code>&quot;ff&quot;</code>），拼成一个 32 位的字符串。</p>
+<p>这就是我们flag的生成过程。</p>
+<p>我在做这个题的时候，第一反应就是先用了CE，尝试去看能不能手动调出来。如果能够手动去实现</p>
+<p><strong>currentWeight &lt;&#x3D; maxWeight&#x3D;&#x3D;132</strong></p>
+<p><strong>currentValue &#x3D;&#x3D; trueEndingValue&#x3D;&#x3D;322</strong></p>
+<p>这两个条件的话，就能直接到达真结局了。</p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603191436529.png" style="zoom: 50%;" />
+
+<p>点击Lookup instances， CE就会自动的给出一堆候选地址（不一定每次都准确），只需要自己去找到真正的地址，可以用向下的快捷方向键。</p>
+<p>这里定位后，可以手动改值，让currentWeight &lt;&#x3D; maxWeight&#x3D;&#x3D;132很容易，直接把currentWeight 设置成0，把maxWeight设置成大于132的数就可以，但是要让currentValue &#x3D;&#x3D; trueEndingValue&#x3D;&#x3D;322很困难，因为这个选项每次加的好感度是不一样的，不太容易把握。</p>
+<p>然后我就换了一种方法，要想跳转到真正结局，可以修改FinishGame传入的参数。</p>
+<p>在 64 位汇编的 FastCall 调用约定中，函数的第二个参数（<code>endingType</code>）永远是通过 <strong><code>edx</code></strong> 寄存器传递的。真结局的值是 <code>1</code>。我们只要在函数开头强行把 <code>edx</code> 改成 <code>1</code>，就能永远跳转到真结局了。</p>
+<p>在Methods这个列表里，去找到FinishGame函数，然后右键去点击，选择在反汇编器中显示。</p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603191500871.png" alt="image-20260319150011784" style="zoom: 50%;" />
+
+<p>这个 <strong>mov [rsp+08], rbx</strong>就是这个函数执行的第一步，我们在这里去编写汇编注入脚本</p>
+<p>选择上方菜单的工具 -&gt; 自动汇编，接着选择模板，选择代码注入。之后会弹出一个确认框（比如让你确认地址、确认名字等），<strong>直接点确定 (OK)</strong></p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603191507663.png" alt="image-20260319150700589" style="zoom:67%;" />
+
+<p>在 <code>newmem:</code> 的正下方去填入我们要改的代码。</p>
+<p>然后去执行</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603191508716.png" alt="image-20260319150854656"></p>
+<p>现在代码长这样</p>
+<p>然后过完剧情，就能触发真结局了</p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603191511269.png" alt="image-20260319151110180" style="zoom:50%;" />
+
+<p>可是，这个并不是真正的flag！我当时写的时候，很粗糙的去看ida的逻辑，忽视了flag是根据你选的选项的marker字符串合并起来去转UTF-8字符，再进行MD5计算得到的。</p>
+<p>那么通往真结局的路只有一条，真flag也只有一个。在这条路线上， currentValue 会精准达到 322，currentWeight会刚好不超过 132，并且沿途收集到正确的 markers来拼出真正的 flag。</p>
+<p><strong>我们可以去解包JSON剧本</strong></p>
+<p>使用工具 <strong>AssetStudio</strong></p>
+<p>这里简单说一下这个工具</p>
+<p><strong>AssetStudio</strong> 是一款在游戏逆向工程、解包和 Mod（模组）制作领域大名鼎鼎的开源工具，它专门用于<strong>探索、提取和导出 Unity 引擎制作的游戏和应用程序中的资源</strong>。AssetStudio 的主要作用是将 Unity 游戏打包后变成的“黑盒”（比如 <code>.assets</code> 或 <code>.bundle</code> 文件）重新解析成人类可读和可用的标准格式文件。</p>
+<p>点击左上角的 <code>File -&gt; Load file</code></p>
+<p>去加载**<code>resources.assets</code>** 文件</p>
+<img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603191522719.png" alt="image-20260319152225656" style="zoom:67%;" />
+
+<p>等待加载完成后，去点击软件上方的 <strong><code>Asset List</code> (资产列表)</strong> </p>
+<p>在左上角的 <strong><code>Filter Type</code> (类型过滤)</strong> 里，勾选 <strong><code>TextAsset</code></strong></p>
+<p>这时列表里会过滤出所有的文本文件</p>
+<p><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603191524834.png" alt="image-20260319152437746"></p>
+<p>我们看到有个story，里面就是所有的故事场景，还有每个选项对应的weight值，value值，flag标志和marker。</p>
+<p>直接右键导出即可。</p>
+<p>内容太多，这里就不粘贴了</p>
+<p>我是把这个发给了ai，让它去进一步分析。</p>
+<p>思路应该是根据这个通关条件去找到唯一的路，然后把这条正确的路上的marker值拼接到一起，去进行MD5加密。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">solve_ctf</span>():</span><br><span class="line">    <span class="comment"># 1. 读取解包出的 JSON 剧本</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">r&quot;E:\CTF\SU\app\TextAsset\story.txt&quot;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            data = json.load(f)</span><br><span class="line">    <span class="keyword">except</span> FileNotFoundError:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;[-] 找不到 story.txt 文件，请确认文件路径。&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    nodes = data[<span class="string">&#x27;nodes&#x27;</span>]</span><br><span class="line">    max_weight = data[<span class="string">&#x27;meta&#x27;</span>][<span class="string">&#x27;maxWeight&#x27;</span>]</span><br><span class="line">    target_value = data[<span class="string">&#x27;meta&#x27;</span>][<span class="string">&#x27;trueEndingValue&#x27;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;寻路开始: 目标 Value=<span class="subst">&#123;target_value&#125;</span>, 限制 Weight&lt;=<span class="subst">&#123;max_weight&#125;</span>, 总节点数=<span class="subst">&#123;<span class="built_in">len</span>(nodes)&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 记忆化搜索字典，用于剪枝加速</span></span><br><span class="line">    memo = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 2. 核心算法：DFS 深度优先搜索</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">dfs</span>(<span class="params">idx, current_w, current_v</span>):</span><br><span class="line">        <span class="comment"># 剪枝：如果超载，这条路直接作废</span></span><br><span class="line">        <span class="keyword">if</span> current_w &gt; max_weight:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 终点判定：如果 60 步走完，检查是否刚好命中目标分数</span></span><br><span class="line">        <span class="keyword">if</span> idx == <span class="built_in">len</span>(nodes):</span><br><span class="line">            <span class="keyword">if</span> current_v == target_value:</span><br><span class="line">                <span class="keyword">return</span> []  <span class="comment"># 成功，返回空路径开始回溯</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 状态查表：如果这个状态算过，直接返回结果</span></span><br><span class="line">        state = (idx, current_w, current_v)</span><br><span class="line">        <span class="keyword">if</span> state <span class="keyword">in</span> memo:</span><br><span class="line">            <span class="keyword">return</span> memo[state]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 遍历当前节点的两个选项</span></span><br><span class="line">        <span class="keyword">for</span> i, choice <span class="keyword">in</span> <span class="built_in">enumerate</span>(nodes[idx][<span class="string">&#x27;choices&#x27;</span>]):</span><br><span class="line">            res = dfs(idx + <span class="number">1</span>, current_w + choice[<span class="string">&#x27;weight&#x27;</span>], current_v + choice[<span class="string">&#x27;value&#x27;</span>])</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 如果这条路走得通，记录 marker 并向上层返回</span></span><br><span class="line">            <span class="keyword">if</span> res <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">                path = [choice[<span class="string">&#x27;marker&#x27;</span>]] + res</span><br><span class="line">                memo[state] = path</span><br><span class="line">                <span class="keyword">return</span> path</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 走不通则记录为 None</span></span><br><span class="line">        memo[state] = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 3. 执行搜索并输出结果</span></span><br><span class="line">    path = dfs(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> path:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;突破成功！找到完美路线！&quot;</span>)</span><br><span class="line">        marker_string = <span class="string">&quot;&quot;</span>.join(path)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;拼接后的 Markers: <span class="subst">&#123;marker_string&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 4. 模拟游戏底层的 Flag 生成器 (MD5)</span></span><br><span class="line">        flag_hash = hashlib.md5(marker_string.encode(<span class="string">&#x27;utf-8&#x27;</span>)).hexdigest()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;Flag: SUCTF&#123;&#123;<span class="subst">&#123;flag_hash&#125;</span>&#125;&#125;&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;未找到符合条件的路线，请检查 JSON 数据是否完整。&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    solve_ctf()</span><br></pre></td></tr></table></figure>
+
+<p>运行脚本后结果</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">寻路开始: 目标 Value=322, 限制 Weight&lt;=132, 总节点数=60</span><br><span class="line">突破成功！找到完美路线！</span><br><span class="line">拼接后的 Markers: m1bm2bm3am4bm5am6am7bm8am9am10am11am12am13am14am15bm16bm17am18bm19am20am21am22am23bm24bm25bm26bm27am28bm29bm30bm31bm32bm33bm34bm35bm36am37am38am39bm40am41am42am43bm44am45bm46am47am48am49bm50bm51bm52am53bm54bm55bm56bm57am58am59am60b</span><br><span class="line">Flag: SUCTF&#123;92d1c2c3f6e55fabbc3a6ffde57c7341&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样就是对的flag了</p>
+<p>ps：这道题不难，自己还是太菜逼了😌不过当时比赛的时候写出来真的很惊喜</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">第二支羽毛</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2026/03/19/SUCTF-SU_easygal/">http://example.com/2026/03/19/SUCTF-SU_easygal/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">Born to Shine</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603181620962.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/03/17/%E6%B5%99%E6%B1%9F%E7%9C%81%E5%86%B3%E8%B5%9Bre%E5%A4%8D%E7%8E%B0/" title="25年浙江省决赛re复现"><img class="cover" src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603181621395.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">25年浙江省决赛re复现</div></div><div class="info-2"><div class="info-item-1">又是一篇在我文章列表里放了好久的的复现半成品，今天终于完工了……救救孩子吧，孩子拖延症都这么严重了🥲</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202502222128421.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">第二支羽毛</div><div class="author-info-description">观我旧往，同我仰春</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/seeker-fang"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/seeker-fang" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">总要记些什么证明我来过</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SUCTF-SU-easygal"><span class="toc-number">1.</span> <span class="toc-text">SUCTF-SU_easygal</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.</span> <span class="toc-text">解题思路</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/03/19/SUCTF-SU_easygal/" title="SUCTF-SU_easygal"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603181620962.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SUCTF-SU_easygal"/></a><div class="content"><a class="title" href="/2026/03/19/SUCTF-SU_easygal/" title="SUCTF-SU_easygal">SUCTF-SU_easygal</a><time datetime="2026-03-19T07:52:00.000Z" title="发表于 2026-03-19 15:52:00">2026-03-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/17/%E6%B5%99%E6%B1%9F%E7%9C%81%E5%86%B3%E8%B5%9Bre%E5%A4%8D%E7%8E%B0/" title="25年浙江省决赛re复现"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603181621395.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="25年浙江省决赛re复现"/></a><div class="content"><a class="title" href="/2026/03/17/%E6%B5%99%E6%B1%9F%E7%9C%81%E5%86%B3%E8%B5%9Bre%E5%A4%8D%E7%8E%B0/" title="25年浙江省决赛re复现">25年浙江省决赛re复现</a><time datetime="2026-03-17T13:47:00.000Z" title="发表于 2026-03-17 21:47:00">2026-03-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/16/%E9%A2%98%E7%9B%AE%E5%A4%8D%E7%8E%B03/" title="题目复现3"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603181620569.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="题目复现3"/></a><div class="content"><a class="title" href="/2026/03/16/%E9%A2%98%E7%9B%AE%E5%A4%8D%E7%8E%B03/" title="题目复现3">题目复现3</a><time datetime="2026-03-16T01:33:19.000Z" title="发表于 2026-03-16 09:33:19">2026-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/16/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E8%B5%9B-%E5%8D%8E%E5%8C%97-%E5%88%9D%E8%B5%9Bre/" title="软件系统安全赛-华北-初赛re"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603181620962.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="软件系统安全赛-华北-初赛re"/></a><div class="content"><a class="title" href="/2026/03/16/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E8%B5%9B-%E5%8D%8E%E5%8C%97-%E5%88%9D%E8%B5%9Bre/" title="软件系统安全赛-华北-初赛re">软件系统安全赛-华北-初赛re</a><time datetime="2026-03-16T00:33:19.000Z" title="发表于 2026-03-16 08:33:19">2026-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/03/CTF%E6%B8%B8%E6%88%8F%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8/" title="CTF游戏逆向入门"><img src="https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603181621395.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CTF游戏逆向入门"/></a><div class="content"><a class="title" href="/2025/09/03/CTF%E6%B8%B8%E6%88%8F%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8/" title="CTF游戏逆向入门">CTF游戏逆向入门</a><time datetime="2025-09-03T02:19:47.000Z" title="发表于 2025-09-03 10:19:47">2025-09-03</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://cdn.jsdelivr.net/gh/seeker-fang/Images//202603181620962.jpg);"><div id="footer-wrap"><div class="copyright">&copy;2025 - 2026 By 第二支羽毛</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.3</a></div><div class="footer_custom_text">勇气是开始与结束的一束光</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
